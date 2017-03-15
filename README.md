@@ -1,5 +1,5 @@
 # rms-backend
-Mitrais Java Bootcamp Training Project, to practice Spring Framework: Data JPA, Data REST
+Mitrais Java Bootcamp Training Project, to practice Spring Framework: Data JPA, Data REST.
 
 The RMS backend provide RESTful API for RMS frontend. 
 The project still in development.
@@ -17,3 +17,7 @@ dependencies found on build.gradle:
 - Spring Data JPA starter
 - H2 memory database
 - Spring Test starter
+
+# TODO
+
+- Unit Test w/ Spring starter test & Mockito MVC

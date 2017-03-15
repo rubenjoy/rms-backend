@@ -1,6 +1,8 @@
 package com.mitrais.rms.entity;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,11 +53,11 @@ public class EmploymentHistory
 	)
 	private String employer;
 	@Column(
-		name = "job_desc",
+		name = "job_title",
 		length = 45,
 		nullable = false
 	)
-	private String jobDesc;
+	private String jobTitle;
 	@Column(
 		name = "active_ind"
 	)
@@ -78,10 +81,19 @@ public class EmploymentHistory
 		nullable = false
 	)
 	private Employee employee;
+	@OneToMany(
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY
+	)
+	@JoinColumn(
+		name = "employment_id",
+		nullable = false
+	)
+	private Set<JobDescription> jobDesc;
 
 	public EmploymentHistory()
 	{
-
+		jobDesc = new TreeSet<JobDescription>();
 	}
 
 	public Integer getId()
@@ -122,14 +134,14 @@ public class EmploymentHistory
 		return this;
 	}
 
-	public String getJobDesc()
+	public String getJobTitle()
 	{
-		return jobDesc;
+		return jobTitle;
 	}
 
-	public EmploymentHistory setJobDesc(String jobDesc)
+	public EmploymentHistory setJobTitle(String jobTitle)
 	{
-		this.jobDesc = jobDesc;
+		this.jobTitle = jobTitle;
 		return this;
 	}
 
@@ -148,5 +160,10 @@ public class EmploymentHistory
 	{
 		this.employee = employee;
 		return this;
+	}
+
+	public Set<JobDescription> getJobDesc()
+	{
+		return jobDesc;
 	}
 }
