@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.repository;
+package com.mitrais.bootcamp.rms.config;
 
 import com.mitrais.bootcamp.rms.data.entity.Division;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 
 @Configuration
-public class RepositoryConfiguration extends RepositoryRestMvcConfiguration {
+public class RepositoryConfig extends RepositoryRestMvcConfiguration {
 
     @Override
     public RepositoryRestConfiguration config() {
