@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name="projects")
-public class Projects {
+public class Project {
     @Id
     @Column(name = "proj_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +17,7 @@ public class Projects {
     @Column(name = "end_date")
     private Date endDate;
 
-    public Projects() {
+    public Project() {
 
     }
 
@@ -53,7 +53,7 @@ public class Projects {
         this.endDate = endDate;
     }
 
-    public Projects(String name, Date startDate, Date endDate) {
+    public Project(String name, Date startDate, Date endDate) {
 
         this.name = name;
         this.startDate = startDate;

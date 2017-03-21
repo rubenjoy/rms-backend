@@ -6,8 +6,8 @@ package com.mitrais.bootcamp.rms.data.constanta;
  * Created by Mary Ellen Bowman
  */
 public enum EmployeeStatus {
-    Male("Contract"),
-    Female("Contract")
+    Contract("Contract"),
+    Permanent("Permanent")
     ;
 
     private String label;

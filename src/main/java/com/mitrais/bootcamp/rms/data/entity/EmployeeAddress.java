@@ -18,9 +18,6 @@ public class EmployeeAddress {
     @Column(name = "post_code")
     private String postCode;
 
-    @ManyToOne
-    private Employee employee;
-
     public long getAddressId() {
         return addressId;
     }
@@ -59,23 +56,6 @@ public class EmployeeAddress {
 
     public void setPostCode(String postCode) {
         this.postCode = postCode;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public EmployeeAddress(String streetAddress, String city, String province, String postCode, Employee employee) {
-
-        this.streetAddress = streetAddress;
-        this.city = city;
-        this.province = province;
-        this.postCode = postCode;
-        this.employee = employee;
     }
 
     public EmployeeAddress() {

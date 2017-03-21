@@ -6,6 +6,7 @@ import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name="employee")
@@ -39,6 +40,31 @@ public class Employee {
     @Lob
     @Column(name="avatar")
     private String avatar;
+    @Column(name="job_family")
+    private String jobFamily;
+
+    @OneToOne
+    @JoinColumn(name="division")
+    private Division division;
+
+    @OneToOne
+    @JoinColumn(name="sub_division")
+    private SubDivision subDivision;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<FamilyMember> familyMembers;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<OfficeLocation> officeLocations;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Grade> grades;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<EmployeeProject> employeeProjects;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<EmployeeAddress> employeeAddresses;
 
     public Employee() {
     }
@@ -147,18 +173,77 @@ public class Employee {
         this.avatar = avatar;
     }
 
-    public Employee(String firstName, String lastName, Gender gender, Date dob, MaritalStatus maritalStatus, String phone, String email, EmployeeStatus empStatus, Date suspendDate, Date hiredDate, String nationality, String avatar) {
+    public Division getDivision() {
+        return division;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
+
+    public String getJobFamily() {
+        return jobFamily;
+    }
+
+    public void setJobFamily(String jobFamily) {
+        this.jobFamily = jobFamily;
+    }
+
+    public SubDivision getSubDivision() {
+        return subDivision;
+    }
+
+    public void setSubDivision(SubDivision subDivision) {
+        this.subDivision = subDivision;
+    }
+
+    public Set<FamilyMember> getFamilyMembers() {
+        return familyMembers;
+    }
+
+    public void setFamilyMembers(Set<FamilyMember> familyMembers) {
+        this.familyMembers = familyMembers;
+    }
+
+    public Set<OfficeLocation> getOfficeLocations() {
+        return officeLocations;
+    }
+
+    public void setOfficeLocations(Set<OfficeLocation> officeLocations) {
+        this.officeLocations = officeLocations;
+    }
+
+    public Set<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Set<Grade> grades) {
+        this.grades = grades;
+    }
+
+    public Set<EmployeeProject> getEmployeeProjects() {
+        return employeeProjects;
+    }
+
+    public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
+        this.employeeProjects = employeeProjects;
+    }
+
+    public Set<EmployeeAddress> getEmployeeAddresses() {
+        return employeeAddresses;
+    }
+
+    public void setEmployeeAddresses(Set<EmployeeAddress> employeeAddresses) {
+        this.employeeAddresses = employeeAddresses;
+    }
+
+    public Employee(String firstName, String lastName, Gender gender, String phone, String email, EmployeeStatus empStatus, String jobFamily) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-        this.dob = dob;
-        this.maritalStatus = maritalStatus;
         this.phone = phone;
         this.email = email;
         this.empStatus = empStatus;
-        this.suspendDate = suspendDate;
-        this.hiredDate = hiredDate;
-        this.nationality = nationality;
-        this.avatar = avatar;
+        this.jobFamily = jobFamily;
     }
 }

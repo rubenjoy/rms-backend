@@ -11,15 +11,7 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
 
     @Override
     @RestResource(exported = false)
-    <S extends Employee> S save(S s);
-
-    @Override
-    @RestResource(exported = false)
     <S extends Employee> Iterable<S> save(Iterable<S> iterable);
-
-    @Override
-    @RestResource(exported = false)
-    void delete(Employee employee);
 
     @Override
     @RestResource(exported = false)

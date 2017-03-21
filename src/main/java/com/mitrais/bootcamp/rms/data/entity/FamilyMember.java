@@ -8,7 +8,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name="family_members")
-public class FamilyMembers {
+public class FamilyMember {
     @Id
     @Column(name = "fam_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +24,7 @@ public class FamilyMembers {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne
-    private Employee employee;
-
-    public FamilyMembers() {
+    public FamilyMember() {
 
     }
 
@@ -79,21 +76,4 @@ public class FamilyMembers {
         isActive = active;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public FamilyMembers(String name, Gender gender, Date dob, Relation relation, boolean isActive, Employee employee) {
-
-        this.name = name;
-        this.gender = gender;
-        this.dob = dob;
-        this.relation = relation;
-        this.isActive = isActive;
-        this.employee = employee;
-    }
 }

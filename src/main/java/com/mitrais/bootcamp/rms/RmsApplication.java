@@ -1,5 +1,6 @@
 package com.mitrais.bootcamp.rms;
 
+import com.mitrais.bootcamp.rms.service.EmployeeService;
 import com.mitrais.bootcamp.rms.service.JobFamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,9 @@ public class RmsApplication implements CommandLineRunner {
 
 	@Autowired
 	private JobFamilyService jobFamilyService;
+
+	@Autowired
+	private EmployeeService employeeService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RmsApplication.class, args);
@@ -28,7 +32,7 @@ public class RmsApplication implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 
 //		jobFamilyService.initJobFamily();
-
+//		employeeService.employeeExampleData();
 
 	}
 }

@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name="office_locations")
-public class OfficeLocations {
+public class OfficeLocation {
     @Id
     @Column(name = "loc_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +18,7 @@ public class OfficeLocations {
     @ManyToOne
     private OfficeAddress officeLocation;
 
-    @ManyToOne
-    private Employee employee;
-
-    public OfficeLocations() {
+    public OfficeLocation() {
 
     }
 
@@ -57,19 +54,4 @@ public class OfficeLocations {
         this.officeLocation = officeLocation;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public OfficeLocations(Date startDate, Date endDate, OfficeAddress officeLocation, Employee employee) {
-
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.officeLocation = officeLocation;
-        this.employee = employee;
-    }
 }

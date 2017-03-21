@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name="grades")
-public class Grades {
+public class Grade {
     @Id
     @Column(name = "grade_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,10 +19,7 @@ public class Grades {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne
-    private Employee employee;
-
-    public Grades() {
+    public Grade() {
 
     }
 
@@ -66,20 +63,4 @@ public class Grades {
         this.endDate = endDate;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Grades(int ds, String grade, Date startDate, Date endDate, Employee employee) {
-
-        this.ds = ds;
-        this.grade = grade;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.employee = employee;
-    }
 }
