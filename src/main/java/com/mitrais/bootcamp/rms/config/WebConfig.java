@@ -18,8 +18,9 @@ public class WebConfig {
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("GET");
-        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("PATCH");
         config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
