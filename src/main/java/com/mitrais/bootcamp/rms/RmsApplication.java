@@ -27,7 +27,7 @@ public class RmsApplication implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 
-		jobFamilyService.initJobFamily();
+//		jobFamilyService.initJobFamily();
 
 
 	}
