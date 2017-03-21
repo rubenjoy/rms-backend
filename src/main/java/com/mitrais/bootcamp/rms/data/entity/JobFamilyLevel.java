@@ -16,9 +16,6 @@ public class JobFamilyLevel {
     @Column(name = "max_ds")
     private int maxDs;
 
-    @ManyToOne
-    private JobFamily jobFamily;
-
     public JobFamilyLevel() {
 
     }
@@ -55,19 +52,4 @@ public class JobFamilyLevel {
         this.maxDs = maxDs;
     }
 
-    public JobFamily getJobFamily() {
-        return jobFamily;
-    }
-
-    public void setJobFamily(JobFamily jobFamily) {
-        this.jobFamily = jobFamily;
-    }
-
-    public JobFamilyLevel(String grade, int minDs, int maxDs, JobFamily jobFamily) {
-
-        this.grade = grade;
-        this.minDs = minDs;
-        this.maxDs = maxDs;
-        this.jobFamily = jobFamily;
-    }
 }

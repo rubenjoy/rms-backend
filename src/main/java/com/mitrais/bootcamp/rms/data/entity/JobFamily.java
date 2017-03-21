@@ -1,14 +1,14 @@
 package com.mitrais.bootcamp.rms.data.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="const_job_family")
 public class JobFamily {
     @Id
-    @Column(name = "jf_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long jfId;
+    @Column(name = "jf_code")
+    private String jfCode;
     @Column(name = "jobFamily")
     private String jobFamily;
     @Column(name = "min_ds")
@@ -16,12 +16,18 @@ public class JobFamily {
     @Column(name = "max_ds")
     private int maxDs;
 
-    public long getJfId() {
-        return jfId;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Division> divisions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<JobFamilyLevel> jfLevels;
+
+    public String getJfCode() {
+        return jfCode;
     }
 
-    public void setJfId(long jfId) {
-        this.jfId = jfId;
+    public void setJfCode(String jfCode) {
+        this.jfCode = jfCode;
     }
 
     public String getJobFamily() {
@@ -48,11 +54,20 @@ public class JobFamily {
         this.maxDs = maxDs;
     }
 
-    public JobFamily(String jobFamily, int minDs, int maxDs) {
+    public Set<Division> getDivisions() {
+        return divisions;
+    }
 
-        this.jobFamily = jobFamily;
-        this.minDs = minDs;
-        this.maxDs = maxDs;
+    public void setDivisions(Set<Division> divisions) {
+        this.divisions = divisions;
+    }
+
+    public Set<JobFamilyLevel> getJfLevels() {
+        return jfLevels;
+    }
+
+    public void setJfLevels(Set<JobFamilyLevel> jfLevels) {
+        this.jfLevels = jfLevels;
     }
 
     public JobFamily() {

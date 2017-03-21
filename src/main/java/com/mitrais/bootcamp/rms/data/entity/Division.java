@@ -1,26 +1,26 @@
 package com.mitrais.bootcamp.rms.data.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="const_division")
 public class Division {
     @Id
-    @Column(name = "div_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long divId;
+    @Column(name = "div_code")
+    private String divCode;
     @Column(name = "division")
     private String division;
 
-    @ManyToOne
-    private JobFamily jobFamily;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<SubDivision> subDivisions;
 
-    public long getDivId() {
-        return divId;
+    public String getDivCode() {
+        return divCode;
     }
 
-    public void setDivId(long divId) {
-        this.divId = divId;
+    public void setDivCode(String divCode) {
+        this.divCode = divCode;
     }
 
     public String getDivision() {
@@ -31,21 +31,16 @@ public class Division {
         this.division = division;
     }
 
-    public JobFamily getJobFamily() {
-        return jobFamily;
+    public Set<SubDivision> getSubDivisions() {
+        return subDivisions;
     }
 
-    public void setJobFamily(JobFamily jobFamily) {
-        this.jobFamily = jobFamily;
-    }
-
-    public Division(String division, JobFamily jobFamily) {
-
-        this.division = division;
-        this.jobFamily = jobFamily;
+    public void setSubDivisions(Set<SubDivision> subDivisions) {
+        this.subDivisions = subDivisions;
     }
 
     public Division() {
 
     }
+
 }
