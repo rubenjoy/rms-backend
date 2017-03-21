@@ -1,9 +1,6 @@
 package com.mitrais.bootcamp.rms.config;
 
-import com.mitrais.bootcamp.rms.data.entity.Division;
-import com.mitrais.bootcamp.rms.data.entity.Employee;
-import com.mitrais.bootcamp.rms.data.entity.JobFamily;
-import com.mitrais.bootcamp.rms.data.entity.SubDivision;
+import com.mitrais.bootcamp.rms.data.entity.*;
 import com.mitrais.bootcamp.rms.data.listener.EmployeeEntityListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +17,7 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(Division.class);
         config.exposeIdsFor(SubDivision.class);
         config.exposeIdsFor(Employee.class);
+        config.exposeIdsFor(Grade.class);
         return config;
     }
 

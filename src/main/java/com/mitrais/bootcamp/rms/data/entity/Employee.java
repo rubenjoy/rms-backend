@@ -43,6 +43,10 @@ public class Employee {
     private String avatar;
     @Column(name="job_family")
     private String jobFamily;
+    @Column(name="division")
+    private String division;
+    @Column(name="sub_division")
+    private String subDivision;
     @Column(name = "last_modified")
     private Timestamp lastModified;
     @Column(name = "date_added")
@@ -63,14 +67,6 @@ public class Employee {
     public void setDateAdded(Timestamp dateAdded) {
         this.dateAdded = dateAdded;
     }
-
-    @OneToOne
-    @JoinColumn(name="division")
-    private Division division;
-
-    @OneToOne
-    @JoinColumn(name="sub_division")
-    private SubDivision subDivision;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<FamilyMember> familyMembers;
@@ -194,11 +190,11 @@ public class Employee {
         this.avatar = avatar;
     }
 
-    public Division getDivision() {
+    public String getDivision() {
         return division;
     }
 
-    public void setDivision(Division division) {
+    public void setDivision(String division) {
         this.division = division;
     }
 
@@ -210,11 +206,11 @@ public class Employee {
         this.jobFamily = jobFamily;
     }
 
-    public SubDivision getSubDivision() {
+    public String getSubDivision() {
         return subDivision;
     }
 
-    public void setSubDivision(SubDivision subDivision) {
+    public void setSubDivision(String subDivision) {
         this.subDivision = subDivision;
     }
 

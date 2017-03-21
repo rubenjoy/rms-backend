@@ -7,8 +7,7 @@ import javax.persistence.*;
 public class JobFamilyLevel {
     @Id
     @Column(name = "level_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long levelId;
+    private String levelId;
     @Column(name = "grade")
     private String grade;
     @Column(name = "min_ds")
@@ -20,11 +19,11 @@ public class JobFamilyLevel {
 
     }
 
-    public long getLevelId() {
+    public String getLevelId() {
         return levelId;
     }
 
-    public void setLevelId(long levelId) {
+    public void setLevelId(String levelId) {
         this.levelId = levelId;
     }
 
