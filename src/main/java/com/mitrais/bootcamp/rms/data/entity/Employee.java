@@ -6,6 +6,7 @@ import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -42,6 +43,26 @@ public class Employee {
     private String avatar;
     @Column(name="job_family")
     private String jobFamily;
+    @Column(name = "last_modified")
+    private Timestamp lastModified;
+    @Column(name = "date_added")
+    private Timestamp dateAdded;
+
+    public Timestamp getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Timestamp lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Timestamp getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Timestamp dateAdded) {
+        this.dateAdded = dateAdded;
+    }
 
     @OneToOne
     @JoinColumn(name="division")
