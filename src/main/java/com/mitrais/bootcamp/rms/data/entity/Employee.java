@@ -7,6 +7,7 @@ import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -74,7 +75,7 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<OfficeLocation> officeLocations;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="employee", cascade = CascadeType.ALL)
     private Set<Grade> grades;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -234,8 +235,20 @@ public class Employee {
         return grades;
     }
 
-    public void setGrades(Set<Grade> grades) {
-        this.grades = grades;
+    public void addGrade(Grade grade) {
+        if (this.grades == null) {
+            this.grades = new HashSet<>();
+        }
+
+        this.grades.add(grade);
+        if (grade.getEmployee() != this) {
+            grade.setEmployee(this);
+        }
+    }
+
+    public void removeGrade(Grade grade) {
+        this.grades.remove(grade);
+        grade.setEmployee(null);
     }
 
     public Set<EmployeeProject> getEmployeeProjects() {

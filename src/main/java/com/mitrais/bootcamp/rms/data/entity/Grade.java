@@ -18,8 +18,20 @@ public class Grade {
     @Column(name = "end_date")
     private Date endDate;
 
+    @ManyToOne
+    @JoinColumn(name="emp_id")
+    private Employee employee;
+
     public Grade() {
 
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getGradeId() {
