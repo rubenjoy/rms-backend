@@ -8,8 +8,7 @@ import java.sql.Date;
 public class Grade {
     @Id
     @Column(name = "grade_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long gradeId;
+    private String gradeId;
     @Column(name = "ds")
     private int ds;
     @Column(name = "grade")
@@ -23,11 +22,11 @@ public class Grade {
 
     }
 
-    public long getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(long gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 
