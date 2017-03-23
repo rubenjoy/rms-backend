@@ -1,5 +1,7 @@
 package com.mitrais.bootcamp.rms.data.entity;
 
+import com.mitrais.bootcamp.rms.data.entity.converter.ProjectJobDescConverter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -11,9 +13,9 @@ public class Project {
     private String projectId;
     @Column(name = "role")
     private String role;
-    @Lob
     @Column(name = "job_desc")
-    private String jobDesc;
+    @Convert(converter = ProjectJobDescConverter.class)
+    private String[] jobDesc;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
@@ -29,14 +31,6 @@ public class Project {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public Project(String projectId, String role, String jobDesc, Date startDate, Date endDate) {
-        this.projectId = projectId;
-        this.role = role;
-        this.jobDesc = jobDesc;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
     public Project() {
@@ -59,11 +53,11 @@ public class Project {
         this.role = role;
     }
 
-    public String getJobDesc() {
+    public String[] getJobDesc() {
         return jobDesc;
     }
 
-    public void setJobDesc(String jobDesc) {
+    public void setJobDesc(String[] jobDesc) {
         this.jobDesc = jobDesc;
     }
 
