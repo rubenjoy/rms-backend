@@ -48,6 +48,16 @@ public class Employee {
     private String division;
     @Column(name="sub_division")
     private String subDivision;
+
+    @Column(name = "street_address")
+    private String streetAddress;
+    @Column(name = "city")
+    private String city;
+    @Column(name = "province")
+    private String province;
+    @Column(name = "post_code")
+    private String postCode;
+
     @Column(name = "last_modified")
     private Timestamp lastModified;
     @Column(name = "date_added")
@@ -80,9 +90,6 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<EmployeeProject> employeeProjects;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<EmployeeAddress> employeeAddresses;
 
     public Employee() {
     }
@@ -259,12 +266,36 @@ public class Employee {
         this.employeeProjects = employeeProjects;
     }
 
-    public Set<EmployeeAddress> getEmployeeAddresses() {
-        return employeeAddresses;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setEmployeeAddresses(Set<EmployeeAddress> employeeAddresses) {
-        this.employeeAddresses = employeeAddresses;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public Employee(String firstName, String lastName, Gender gender, String phone, String email, EmployeeStatus empStatus, String jobFamily) {
