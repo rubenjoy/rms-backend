@@ -3,11 +3,11 @@ package com.mitrais.bootcamp.rms.service;
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
-import com.mitrais.bootcamp.rms.data.entity.OfficeAddress;
+import com.mitrais.bootcamp.rms.data.entity.references.OfficeAddress;
 import com.mitrais.bootcamp.rms.data.entity.OfficeLocation;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
-import com.mitrais.bootcamp.rms.data.repository.JobFamilyRepository;
-import com.mitrais.bootcamp.rms.data.repository.OfficeAddressRepository;
+import com.mitrais.bootcamp.rms.data.repository.references.JobFamilyRepository;
+import com.mitrais.bootcamp.rms.data.repository.references.OfficeAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

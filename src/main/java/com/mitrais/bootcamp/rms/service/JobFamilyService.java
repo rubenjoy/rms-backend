@@ -1,6 +1,6 @@
 package com.mitrais.bootcamp.rms.service;
 
-import com.mitrais.bootcamp.rms.data.repository.JobFamilyRepository;
+import com.mitrais.bootcamp.rms.data.repository.references.JobFamilyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

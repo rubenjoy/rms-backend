@@ -88,8 +88,8 @@ public class Employee {
     @OneToMany(mappedBy="employee", cascade = CascadeType.ALL)
     private Set<Grade> grades;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<EmployeeProject> employeeProjects;
+    @OneToMany(mappedBy="employee", cascade = CascadeType.ALL)
+    private Set<Project> projects;
 
     public Employee() {
     }
@@ -282,12 +282,24 @@ public class Employee {
         officeLocation.setEmployee(null);
     }
 
-    public Set<EmployeeProject> getEmployeeProjects() {
-        return employeeProjects;
+    public void addProject(Project project) {
+        if (this.projects == null) {
+            this.projects = new HashSet<>();
+        }
+
+        this.projects.add(project);
+        if (project.getEmployee() != this) {
+            project.setEmployee(this);
+        }
     }
 
-    public void setEmployeeProjects(Set<EmployeeProject> employeeProjects) {
-        this.employeeProjects = employeeProjects;
+    public void removeProject(Project project) {
+        this.projects.remove(project);
+        project.setEmployee(null);
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
     }
 
     public String getStreetAddress() {

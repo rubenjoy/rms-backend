@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.entity;
+package com.mitrais.bootcamp.rms.data.entity.references;
 
 import javax.persistence.*;
 

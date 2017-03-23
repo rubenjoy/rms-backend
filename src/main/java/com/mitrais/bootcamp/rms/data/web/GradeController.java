@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.controller;
+package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.entity.Grade;
@@ -36,7 +36,7 @@ public class GradeController {
     public Set<Grade> update(@PathVariable(value = "empId") int empId, @RequestBody Set<Grade> newGrades) {
         Employee emp = verifyEmployee(empId);
 
-        Set<Grade> oldGrades = new HashSet<Grade>(emp.getGrades());
+        Set<Grade> oldGrades = new HashSet(emp.getGrades());
 
         for (Grade grade: oldGrades) {
             // handle delete

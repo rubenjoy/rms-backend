@@ -7,34 +7,64 @@ import java.sql.Date;
 @Table(name="projects")
 public class Project {
     @Id
-    @Column(name = "proj_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long projId;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "project_id")
+    private String projectId;
+    @Column(name = "role")
+    private String role;
+    @Lob
+    @Column(name = "job_desc")
+    private String jobDesc;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
 
+    @ManyToOne
+    @JoinColumn(name="emp_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Project(String projectId, String role, String jobDesc, Date startDate, Date endDate) {
+        this.projectId = projectId;
+        this.role = role;
+        this.jobDesc = jobDesc;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Project() {
 
     }
 
-    public long getProjId() {
-        return projId;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setProjId(long projId) {
-        this.projId = projId;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getJobDesc() {
+        return jobDesc;
+    }
+
+    public void setJobDesc(String jobDesc) {
+        this.jobDesc = jobDesc;
     }
 
     public Date getStartDate() {
@@ -53,10 +83,4 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public Project(String name, Date startDate, Date endDate) {
-
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
 }
