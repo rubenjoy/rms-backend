@@ -8,25 +8,35 @@ import java.sql.Date;
 public class OfficeLocation {
     @Id
     @Column(name = "loc_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long locId;
+    private String locId;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
+    @Column(name = "office_location")
+    private String officeLocation;
 
     @ManyToOne
-    private OfficeAddress officeLocation;
+    @JoinColumn(name="emp_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public OfficeLocation() {
 
     }
 
-    public long getLocId() {
+    public String getLocId() {
         return locId;
     }
 
-    public void setLocId(long locId) {
+    public void setLocId(String locId) {
         this.locId = locId;
     }
 
@@ -46,11 +56,11 @@ public class OfficeLocation {
         this.endDate = endDate;
     }
 
-    public OfficeAddress getOfficeLocation() {
+    public String getOfficeLocation() {
         return officeLocation;
     }
 
-    public void setOfficeLocation(OfficeAddress officeLocation) {
+    public void setOfficeLocation(String officeLocation) {
         this.officeLocation = officeLocation;
     }
 

@@ -3,11 +3,8 @@ package com.mitrais.bootcamp.rms.data.repository;
 import com.mitrais.bootcamp.rms.data.entity.JobFamily;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface JobFamilyRepository extends CrudRepository<JobFamily,String> {
-    JobFamily findByJfCode(String jfCode);
 
     @Override
     @RestResource(exported = false)

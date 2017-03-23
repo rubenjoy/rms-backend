@@ -7,8 +7,7 @@ import javax.persistence.*;
 public class OfficeAddress {
     @Id
     @Column(name = "address_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long addressId;
+    private String addressId;
     @Column(name = "street_address")
     private String streetAddress;
     @Column(name = "city")
@@ -28,11 +27,11 @@ public class OfficeAddress {
     public OfficeAddress() {
     }
 
-    public long getAddressId() {
+    public String getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(long addressId) {
+    public void setAddressId(String addressId) {
         this.addressId = addressId;
     }
 
