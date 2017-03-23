@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.controller;
+package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.entity.OfficeLocation;
@@ -36,7 +36,7 @@ public class OfficeLocationController {
     public Set<OfficeLocation> update(@PathVariable(value = "empId") int empId, @RequestBody Set<OfficeLocation> newOffices) {
         Employee emp = verifyEmployee(empId);
 
-        Set<OfficeLocation> oldOffices = new HashSet<OfficeLocation>(emp.getOfficeLocations());
+        Set<OfficeLocation> oldOffices = new HashSet(emp.getOfficeLocations());
 
         for (OfficeLocation oldOffice: oldOffices) {
             // handle delete

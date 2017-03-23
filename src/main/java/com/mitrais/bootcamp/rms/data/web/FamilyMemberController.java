@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.controller;
+package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.entity.FamilyMember;
@@ -36,7 +36,7 @@ public class FamilyMemberController {
     public Set<FamilyMember> update(@PathVariable(value = "empId") int empId, @RequestBody Set<FamilyMember> newFamily) {
         Employee emp = verifyEmployee(empId);
 
-        Set<FamilyMember> oldFamily = new HashSet<FamilyMember>(emp.getFamilyMembers());
+        Set<FamilyMember> oldFamily = new HashSet(emp.getFamilyMembers());
 
         for (FamilyMember existingMember: oldFamily) {
             // handle delete

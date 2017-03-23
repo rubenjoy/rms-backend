@@ -1,4 +1,4 @@
-package com.mitrais.bootcamp.rms.data.listener;
+package com.mitrais.bootcamp.rms.data.entity.listener;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
