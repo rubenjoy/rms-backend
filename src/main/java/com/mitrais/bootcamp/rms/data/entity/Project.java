@@ -11,6 +11,8 @@ public class Project {
     @Id
     @Column(name = "project_id")
     private String projectId;
+    @Column(name = "project_name")
+    private String projectName;
     @Column(name = "role")
     private String role;
     @Column(name = "job_desc")
@@ -20,6 +22,14 @@ public class Project {
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
     @ManyToOne
     @JoinColumn(name="emp_id")

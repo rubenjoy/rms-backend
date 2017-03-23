@@ -51,6 +51,7 @@ public class ProjectController {
                         project.setEndDate(newProject.getEndDate());
                         project.setJobDesc(newProject.getJobDesc());
                         project.setRole(newProject.getRole());
+                        project.setProjectName(newProject.getProjectName());
 
                         projectRepository.save(project);
                     }
