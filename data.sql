@@ -55,3 +55,7 @@ insert into const_job_family_jf_levels values ("FA", "FA-1");
 insert into const_job_family_jf_levels values ("FA", "FA-2");
 insert into const_job_family_jf_levels values ("FA", "FA-3");
 insert into const_job_family_jf_levels values ("FA", "FA-4");
+
+INSERT INTO office_address VALUES ('BDG', 'Bandung', '40164', 'Jawa Barat', 'Jl Surya Sumantri no 8D');
+INSERT INTO office_address VALUES ('YOG', 'Umbulharjo', '55165', 'Yogyakarta', 'Jln Sidobali No 2, Muja Muju');
+INSERT INTO office_address VALUES ('BALI-1', 'Suwung', '80223', 'Bali', 'Jln Bypass Ngurah Rai gg. Mina Utama No. 1');

@@ -3,42 +3,42 @@ package com.mitrais.bootcamp.rms.service;
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
-import com.mitrais.bootcamp.rms.data.entity.Grade;
-import com.mitrais.bootcamp.rms.data.entity.JobFamily;
+import com.mitrais.bootcamp.rms.data.entity.OfficeAddress;
+import com.mitrais.bootcamp.rms.data.entity.OfficeLocation;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
 import com.mitrais.bootcamp.rms.data.repository.JobFamilyRepository;
+import com.mitrais.bootcamp.rms.data.repository.OfficeAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
 
 @Service
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
-    private JobFamilyRepository jobFamilyRepository;
+    private OfficeAddressRepository officeAddressRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, JobFamilyRepository jobFamilyRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, JobFamilyRepository jobFamilyRepository, OfficeAddressRepository officeAddressRepository) {
         this.employeeRepository = employeeRepository;
-        this.jobFamilyRepository = jobFamilyRepository;
+        this.officeAddressRepository = officeAddressRepository;
     }
 
     public void employeeExampleData() {
-        JobFamily jfSE = jobFamilyRepository.findByJfCode("SE");
         Employee emp = new Employee("employee", "1", Gender.Female, "+62132123", "email@email.com",
-                EmployeeStatus.Contract, jfSE.getJfCode());
-
-        Grade grade = new Grade();
-        grade.setGradeId("g_1_2");
-        grade.setGrade("SE-JP");
-        grade.setDs(1);
-        grade.setStartDate(new java.sql.Date(new Date().getTime()));
-
-        emp.addGrade(grade);
+                EmployeeStatus.Contract, "SE");
 
         employeeRepository.save(emp);
 
-        emp.removeGrade(grade);
+        OfficeAddress bdgOffice = officeAddressRepository.findByAddressId("BDG");
+
+        OfficeLocation officeLocation = new OfficeLocation();
+        officeLocation.setOfficeLocation(bdgOffice.getAddressId());
+        officeLocation.setStartDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        officeLocation.setLocId("add-1");
+
+        emp.addOfficeLocation(officeLocation);
 
         employeeRepository.save(emp);
     }
