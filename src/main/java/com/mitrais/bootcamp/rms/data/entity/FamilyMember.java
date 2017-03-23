@@ -11,8 +11,7 @@ import java.sql.Date;
 public class FamilyMember {
     @Id
     @Column(name = "fam_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long famId;
+    private String famId;
     @Column(name = "name")
     private String name;
     @Column(name = "gender")
@@ -24,15 +23,27 @@ public class FamilyMember {
     @Column(name = "is_active")
     private boolean isActive;
 
+    @ManyToOne
+    @JoinColumn(name="emp_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public FamilyMember() {
 
     }
 
-    public long getFamId() {
+    public String getFamId() {
         return famId;
     }
 
-    public void setFamId(long famId) {
+    public void setFamId(String famId) {
         this.famId = famId;
     }
 

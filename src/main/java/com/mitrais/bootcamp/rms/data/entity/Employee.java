@@ -79,7 +79,7 @@ public class Employee {
         this.dateAdded = dateAdded;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="employee", cascade = CascadeType.ALL)
     private Set<FamilyMember> familyMembers;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -226,10 +226,6 @@ public class Employee {
         return familyMembers;
     }
 
-    public void setFamilyMembers(Set<FamilyMember> familyMembers) {
-        this.familyMembers = familyMembers;
-    }
-
     public Set<OfficeLocation> getOfficeLocations() {
         return officeLocations;
     }
@@ -256,6 +252,22 @@ public class Employee {
     public void removeGrade(Grade grade) {
         this.grades.remove(grade);
         grade.setEmployee(null);
+    }
+
+    public void addFamilyMember(FamilyMember familyMember) {
+        if (this.familyMembers == null) {
+            this.familyMembers = new HashSet<>();
+        }
+
+        this.familyMembers.add(familyMember);
+        if (familyMember.getEmployee() != this) {
+            familyMember.setEmployee(this);
+        }
+    }
+
+    public void removeFamilyMember(FamilyMember familyMember) {
+        this.familyMembers.remove(familyMember);
+        familyMember.setEmployee(null);
     }
 
     public Set<EmployeeProject> getEmployeeProjects() {
