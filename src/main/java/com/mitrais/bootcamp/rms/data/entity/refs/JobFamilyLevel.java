@@ -8,11 +8,11 @@ public class JobFamilyLevel {
     @Id
     @Column(name = "level_id")
     private String levelId;
-    @Column(name = "grade")
+    @Column(name = "grade", nullable = false)
     private String grade;
-    @Column(name = "min_ds")
+    @Column(name = "min_ds", nullable = false)
     private int minDs;
-    @Column(name = "max_ds")
+    @Column(name = "max_ds", nullable = false)
     private int maxDs;
 
     @ManyToOne

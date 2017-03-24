@@ -9,7 +9,7 @@ public class Division {
     @Id
     @Column(name = "div_code")
     private String divCode;
-    @Column(name = "division")
+    @Column(name = "division", nullable = false)
     private String division;
 
     @OneToMany(mappedBy="division", cascade = CascadeType.ALL)

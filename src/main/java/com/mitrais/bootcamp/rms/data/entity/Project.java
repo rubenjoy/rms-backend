@@ -11,14 +11,14 @@ public class Project {
     @Id
     @Column(name = "project_id")
     private String projectId;
-    @Column(name = "project_name")
+    @Column(name = "project_name", nullable = false)
     private String projectName;
     @Column(name = "role")
     private String role;
     @Column(name = "job_desc")
     @Convert(converter = ProjectJobDescConverter.class)
     private String[] jobDesc;
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;

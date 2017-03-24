@@ -9,11 +9,11 @@ public class JobFamily {
     @Id
     @Column(name = "jf_code")
     private String jfCode;
-    @Column(name = "jobFamily")
+    @Column(name = "jobFamily", nullable = false)
     private String jobFamily;
-    @Column(name = "min_ds")
+    @Column(name = "min_ds", nullable = false)
     private int minDs;
-    @Column(name = "max_ds")
+    @Column(name = "max_ds", nullable = false)
     private int maxDs;
 
     @OneToMany(mappedBy="jobFamily", cascade = CascadeType.ALL)

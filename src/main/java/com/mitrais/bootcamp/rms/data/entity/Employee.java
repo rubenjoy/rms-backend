@@ -17,32 +17,32 @@ public class Employee {
     @Column(name="emp_id")
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long empId;
-    @Column(name="first_name")
+    @Column(name="first_name", nullable = false)
     private String firstName;
-    @Column(name="last_name")
+    @Column(name="last_name", nullable = false)
     private String lastName;
-    @Column(name="gender")
+    @Column(name="gender", nullable = false)
     private Gender gender;
     @Column(name="dob")
     private Date dob;
     @Column(name="marital_status")
     private MaritalStatus maritalStatus;
-    @Column(name="phone")
+    @Column(name="phone", nullable = false, unique=true)
     private String phone;
-    @Column(name="email")
+    @Column(name="email", nullable = false, unique=true)
     private String email;
-    @Column(name="emp_status")
+    @Column(name="emp_status", nullable = false)
     private EmployeeStatus empStatus;
     @Column(name="suspend_date")
     private Date suspendDate;
-    @Column(name="hired_date")
+    @Column(name="hired_date", nullable = false)
     private Date hiredDate;
     @Column(name="nationality")
     private String nationality;
     @Lob
     @Column(name="avatar")
     private String avatar;
-    @Column(name="job_family")
+    @Column(name="job_family", nullable = false)
     private String jobFamily;
     @Column(name="division")
     private String division;
@@ -58,9 +58,9 @@ public class Employee {
     @Column(name = "post_code")
     private String postCode;
 
-    @Column(name = "last_modified")
+    @Column(name = "last_modified", nullable = false)
     private Timestamp lastModified;
-    @Column(name = "date_added")
+    @Column(name = "date_added", nullable = false)
     private Timestamp dateAdded;
 
     public Timestamp getLastModified() {
