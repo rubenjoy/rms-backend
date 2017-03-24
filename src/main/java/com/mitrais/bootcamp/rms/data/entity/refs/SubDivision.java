@@ -1,15 +1,19 @@
-package com.mitrais.bootcamp.rms.data.entity.references;
+package com.mitrais.bootcamp.rms.data.entity.refs;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="const_subdivision")
+@Table(name="ref_subdivision")
 public class SubDivision {
     @Id
     @Column(name = "sub_div_code")
     private String subDivCode;
     @Column(name = "sub_division")
     private String subDivision;
+
+    @ManyToOne
+    @JoinColumn(name="division")
+    private Division division;
 
     public SubDivision() {
     }

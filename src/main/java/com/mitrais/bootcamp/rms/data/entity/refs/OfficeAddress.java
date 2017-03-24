@@ -1,9 +1,9 @@
-package com.mitrais.bootcamp.rms.data.entity.references;
+package com.mitrais.bootcamp.rms.data.entity.refs;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="office_address")
+@Table(name="ref_office_address")
 public class OfficeAddress {
     @Id
     @Column(name = "address_id")

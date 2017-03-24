@@ -1,9 +1,9 @@
-package com.mitrais.bootcamp.rms.data.entity.references;
+package com.mitrais.bootcamp.rms.data.entity.refs;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="const_jf_level")
+@Table(name="ref_jf_level")
 public class JobFamilyLevel {
     @Id
     @Column(name = "level_id")
@@ -14,6 +14,18 @@ public class JobFamilyLevel {
     private int minDs;
     @Column(name = "max_ds")
     private int maxDs;
+
+    @ManyToOne
+    @JoinColumn(name="job_family")
+    private JobFamily jobFamily;
+
+    public JobFamily getJobFamily() {
+        return jobFamily;
+    }
+
+    public void setJobFamily(JobFamily jobFamily) {
+        this.jobFamily = jobFamily;
+    }
 
     public JobFamilyLevel() {
 

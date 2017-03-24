@@ -3,7 +3,7 @@ package com.mitrais.bootcamp.rms.service;
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
-import com.mitrais.bootcamp.rms.data.entity.references.OfficeAddress;
+import com.mitrais.bootcamp.rms.data.entity.refs.OfficeAddress;
 import com.mitrais.bootcamp.rms.data.entity.OfficeLocation;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
 import com.mitrais.bootcamp.rms.data.repository.references.JobFamilyRepository;

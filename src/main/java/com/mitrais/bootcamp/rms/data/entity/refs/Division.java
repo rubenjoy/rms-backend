@@ -1,10 +1,10 @@
-package com.mitrais.bootcamp.rms.data.entity.references;
+package com.mitrais.bootcamp.rms.data.entity.refs;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="const_division")
+@Table(name="ref_division")
 public class Division {
     @Id
     @Column(name = "div_code")
@@ -12,8 +12,20 @@ public class Division {
     @Column(name = "division")
     private String division;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="division", cascade = CascadeType.ALL)
     private Set<SubDivision> subDivisions;
+
+    @ManyToOne
+    @JoinColumn(name="job_family")
+    private JobFamily jobFamily;
+
+    public JobFamily getJobFamily() {
+        return jobFamily;
+    }
+
+    public void setJobFamily(JobFamily jobFamily) {
+        this.jobFamily = jobFamily;
+    }
 
     public String getDivCode() {
         return divCode;
