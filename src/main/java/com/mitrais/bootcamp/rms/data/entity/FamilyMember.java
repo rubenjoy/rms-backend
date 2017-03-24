@@ -12,15 +12,15 @@ public class FamilyMember {
     @Id
     @Column(name = "fam_id")
     private String famId;
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "gender")
+    @Column(name = "gender", nullable = false)
     private Gender gender;
-    @Column(name = "dob")
+    @Column(name = "dob", nullable = false)
     private Date dob;
-    @Column(name = "relation")
+    @Column(name = "relation", nullable = false)
     private Relation relation;
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
     @ManyToOne

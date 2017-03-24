@@ -8,7 +8,7 @@ public class SubDivision {
     @Id
     @Column(name = "sub_div_code")
     private String subDivCode;
-    @Column(name = "sub_division")
+    @Column(name = "sub_division", nullable = false)
     private String subDivision;
 
     @ManyToOne

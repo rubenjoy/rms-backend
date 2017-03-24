@@ -8,13 +8,13 @@ public class OfficeAddress {
     @Id
     @Column(name = "address_id")
     private String addressId;
-    @Column(name = "street_address")
+    @Column(name = "street_address", nullable = false)
     private String streetAddress;
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private String city;
-    @Column(name = "province")
+    @Column(name = "province", nullable = false)
     private String province;
-    @Column(name = "post_code")
+    @Column(name = "post_code", nullable = false)
     private String postCode;
 
     public OfficeAddress(String streetAddress, String city, String province, String postCode) {

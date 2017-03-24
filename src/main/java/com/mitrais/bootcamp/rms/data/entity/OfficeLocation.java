@@ -9,11 +9,11 @@ public class OfficeLocation {
     @Id
     @Column(name = "loc_id")
     private String locId;
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
-    @Column(name = "office_location")
+    @Column(name = "office_location", nullable = false)
     private String officeLocation;
 
     @ManyToOne

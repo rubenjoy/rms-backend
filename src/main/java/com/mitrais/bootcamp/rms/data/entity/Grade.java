@@ -9,11 +9,11 @@ public class Grade {
     @Id
     @Column(name = "grade_id")
     private String gradeId;
-    @Column(name = "ds")
+    @Column(name = "ds", nullable = false)
     private int ds;
-    @Column(name = "grade")
+    @Column(name = "grade", nullable = false)
     private String grade;
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
     @Column(name = "end_date")
     private Date endDate;
