@@ -1,5 +1,6 @@
 package com.mitrais.bootcamp.rms.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
@@ -62,6 +63,8 @@ public class Employee {
     private Timestamp lastModified;
     @Column(name = "date_added", nullable = false)
     private Timestamp dateAdded;
+    private @Version @JsonIgnore
+    Long version;
 
     public Timestamp getLastModified() {
         return lastModified;
