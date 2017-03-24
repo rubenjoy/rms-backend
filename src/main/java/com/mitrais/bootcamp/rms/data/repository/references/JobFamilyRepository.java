@@ -1,6 +1,6 @@
 package com.mitrais.bootcamp.rms.data.repository.references;
 
-import com.mitrais.bootcamp.rms.data.entity.references.JobFamily;
+import com.mitrais.bootcamp.rms.data.entity.refs.JobFamily;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 

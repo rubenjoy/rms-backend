@@ -1,10 +1,10 @@
 package com.mitrais.bootcamp.rms.config;
 
 import com.mitrais.bootcamp.rms.data.entity.*;
-import com.mitrais.bootcamp.rms.data.entity.references.Division;
-import com.mitrais.bootcamp.rms.data.entity.references.JobFamily;
-import com.mitrais.bootcamp.rms.data.entity.references.OfficeAddress;
-import com.mitrais.bootcamp.rms.data.entity.references.SubDivision;
+import com.mitrais.bootcamp.rms.data.entity.refs.Division;
+import com.mitrais.bootcamp.rms.data.entity.refs.JobFamily;
+import com.mitrais.bootcamp.rms.data.entity.refs.OfficeAddress;
+import com.mitrais.bootcamp.rms.data.entity.refs.SubDivision;
 import com.mitrais.bootcamp.rms.data.entity.listener.EmployeeEntityListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

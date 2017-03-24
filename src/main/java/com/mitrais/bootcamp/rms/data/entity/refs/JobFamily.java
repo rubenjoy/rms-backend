@@ -1,10 +1,10 @@
-package com.mitrais.bootcamp.rms.data.entity.references;
+package com.mitrais.bootcamp.rms.data.entity.refs;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="const_job_family")
+@Table(name="ref_job_family")
 public class JobFamily {
     @Id
     @Column(name = "jf_code")
@@ -16,10 +16,10 @@ public class JobFamily {
     @Column(name = "max_ds")
     private int maxDs;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="jobFamily", cascade = CascadeType.ALL)
     private Set<Division> divisions;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="jobFamily", cascade = CascadeType.ALL)
     private Set<JobFamilyLevel> jfLevels;
 
     public String getJfCode() {
