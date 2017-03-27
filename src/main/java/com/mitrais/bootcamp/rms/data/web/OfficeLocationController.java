@@ -7,6 +7,8 @@ import com.mitrais.bootcamp.rms.data.repository.OfficeLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -63,6 +65,7 @@ public class OfficeLocationController {
             }
         }
 
+        emp.setLastModified(new Timestamp(new Date().getTime()));
         employeeRepository.save(emp);
         return newOffices;
     }
