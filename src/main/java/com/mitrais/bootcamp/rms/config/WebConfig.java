@@ -17,6 +17,7 @@ public class WebConfig {
         config.setAllowCredentials(true); // you USUALLY want this
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
+        config.addExposedHeader("Etag");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("PATCH");
         config.addAllowedMethod("POST");

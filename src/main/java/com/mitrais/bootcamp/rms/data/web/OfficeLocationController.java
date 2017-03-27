@@ -35,9 +35,13 @@ public class OfficeLocationController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Set<OfficeLocation> update(@PathVariable(value = "empId") int empId, @RequestBody Set<OfficeLocation> newOffices) {
+    public Set<OfficeLocation> update(@PathVariable(value = "empId") int empId, @RequestBody Set<OfficeLocation> newOffices,
+                                      @RequestHeader("if-match") String etag) {
         Employee emp = verifyEmployee(empId);
 
+        if (!emp.isEmployeeVersionMatch(etag)) {
+            throw new EtagNotEqualException();
+        }
         Set<OfficeLocation> oldOffices = new HashSet(emp.getOfficeLocations());
 
         for (OfficeLocation oldOffice: oldOffices) {

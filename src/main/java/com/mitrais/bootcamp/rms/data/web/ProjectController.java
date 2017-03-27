@@ -35,8 +35,13 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Set<Project> update(@PathVariable(value = "empId") int empId, @RequestBody Set<Project> newProjects) {
+    public Set<Project> update(@PathVariable(value = "empId") int empId, @RequestBody Set<Project> newProjects,
+                               @RequestHeader("if-match") String etag) {
         Employee emp = verifyEmployee(empId);
+
+        if (!emp.isEmployeeVersionMatch(etag)) {
+            throw new EtagNotEqualException();
+        }
 
         Set<Project> oldProjects = new HashSet(emp.getProjects());
 

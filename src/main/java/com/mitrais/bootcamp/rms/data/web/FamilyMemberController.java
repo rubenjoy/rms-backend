@@ -35,8 +35,13 @@ public class FamilyMemberController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Set<FamilyMember> update(@PathVariable(value = "empId") int empId, @RequestBody Set<FamilyMember> newFamily) {
+    public Set<FamilyMember> update(@PathVariable(value = "empId") int empId, @RequestBody Set<FamilyMember> newFamily,
+                                    @RequestHeader("if-match") String etag) {
         Employee emp = verifyEmployee(empId);
+
+        if (!emp.isEmployeeVersionMatch(etag)) {
+            throw new EtagNotEqualException();
+        }
 
         Set<FamilyMember> oldFamily = new HashSet(emp.getFamilyMembers());
 

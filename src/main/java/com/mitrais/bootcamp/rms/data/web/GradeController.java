@@ -35,8 +35,13 @@ public class GradeController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Set<Grade> update(@PathVariable(value = "empId") int empId, @RequestBody Set<Grade> newGrades) {
+    public Set<Grade> update(@PathVariable(value = "empId") int empId, @RequestBody Set<Grade> newGrades,
+                             @RequestHeader("if-match") String etag) {
         Employee emp = verifyEmployee(empId);
+        
+        if (!emp.isEmployeeVersionMatch(etag)) {
+            throw new EtagNotEqualException();
+        }
 
         Set<Grade> oldGrades = new HashSet(emp.getGrades());
 

@@ -66,6 +66,10 @@ public class Employee {
     private @Version @JsonIgnore
     Long version;
 
+    public Long getVersion() {
+        return version;
+    }
+
     public Timestamp getLastModified() {
         return lastModified;
     }
@@ -95,6 +99,10 @@ public class Employee {
     private Set<Project> projects;
 
     public Employee() {
+    }
+
+    public boolean isEmployeeVersionMatch(String clientVersion) {
+        return clientVersion.equalsIgnoreCase('"'+String.valueOf(getVersion())+'"');
     }
 
     public long getEmpId() {
