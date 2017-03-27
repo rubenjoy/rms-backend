@@ -25,6 +25,7 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(FamilyMember.class);
         config.exposeIdsFor(OfficeLocation.class);
         config.exposeIdsFor(OfficeAddress.class);
+        config.exposeIdsFor(Project.class);
         return config;
     }
 
