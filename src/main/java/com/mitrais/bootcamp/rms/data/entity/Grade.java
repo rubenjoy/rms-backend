@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name="grades")
+@Table(name="grades", uniqueConstraints={
+        @UniqueConstraint(columnNames = {"ds", "emp_id"})
+})
 public class Grade {
     @Id
     @Column(name = "grade_id")
