@@ -1,12 +1,12 @@
-insert into ref_job_family values ("SE", "Software Engineer", 1, 22);
-insert into ref_job_family values ("ADM", "Administration", 1, 22);
-insert into ref_job_family values ("CON", "Consultant", 1, 22);
-insert into ref_job_family values ("FA", "Finance and accounting", 1, 22);
-insert into ref_job_family values ("DSG", "Designer", 1, 22);
-insert into ref_job_family values ("IT", "IT", 1, 22);
-insert into ref_job_family values ("MJF", "Management", 1, 22);
-insert into ref_job_family values ("TR", "Trainer", 1, 22);
-insert into ref_job_family values ("SQ", "Software Quality", 1, 22);
+insert into ref_job_family values ("SE", "Software Engineer", 22, 1);
+insert into ref_job_family values ("ADM", "Administration", 22, 1);
+insert into ref_job_family values ("CON", "Consultant", 22, 1);
+insert into ref_job_family values ("FA", "Finance and accounting", 22, 1);
+insert into ref_job_family values ("DSG", "Designer", 22, 1);
+insert into ref_job_family values ("IT", "IT", 22, 1);
+insert into ref_job_family values ("MJF", "Management", 22, 1);
+insert into ref_job_family values ("TR", "Trainer", 22, 1);
+insert into ref_job_family values ("SQ", "Software Quality", 22, 1);
 
 insert into ref_division values ("CDC", "CDC", "SE");
 insert into ref_division values ("SWDG", "SWD Green", "SE");
