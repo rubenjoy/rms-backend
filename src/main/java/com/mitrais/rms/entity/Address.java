@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 @Table(name = "t_address")
 public class Address
+	implements Comparable<Address>
 {
 	@Id
 	@GeneratedValue(
@@ -51,7 +52,7 @@ public class Address
 	)
 	private String lastModUser;
 	@ManyToOne(
-		cascade = CascadeType.ALL,
+		cascade = {CascadeType.PERSIST,CascadeType.MERGE},
 		fetch = FetchType.LAZY,
 		optional = true
 	)
@@ -60,6 +61,13 @@ public class Address
 		nullable = false
 	)
 	private Employee employee;
+	@Column(
+		name = "employee_id",
+		nullable = false,
+		insertable = false,
+		updatable = false
+	)
+	private Integer employeeId;
 
 	public Address()
 	{
@@ -69,6 +77,11 @@ public class Address
 	public Integer getId()
 	{
 		return id;
+	}
+
+	public Integer getEmployeeId()
+	{
+		return employeeId;
 	}
 
 	public String getAddress()
@@ -97,5 +110,21 @@ public class Address
 	{
 		this.employee = employee;
 		return this;
+	}
+
+	public Employee getEmployee()
+	{
+		return employee;
+	}
+
+	public int compareTo(Address obj)
+	{
+		if (obj.id != null && id != null)
+			return id - obj.id;
+		if (id != null)
+			return id;
+		if (address != null && obj.address != null)
+			return address.compareTo(obj.address);
+		return 0;
 	}
 }

@@ -8,6 +8,7 @@ import com.mitrais.rms.entity.Location;
 import com.mitrais.rms.entity.enumerated.Gender;
 import com.mitrais.rms.entity.enumerated.MaritalStatus;
 import com.mitrais.rms.entity.enumerated.Nationality;
+import com.mitrais.rms.repository.AddressRepository;
 import com.mitrais.rms.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Component;
 public class EmployeeLoader implements CommandLineRunner
 {
 	private final EmployeeRepository repository;
+
+	@Autowired
+	private AddressRepository addRepo;
 
 	@Autowired
 	public EmployeeLoader(EmployeeRepository repository)

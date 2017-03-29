@@ -273,7 +273,7 @@ public class Employee
 		return activeInd;
 	}
 
-	public Employee setActiveInd()
+	public Employee setActiveInd(Boolean activeInd)
 	{
 		this.activeInd = activeInd;
 		return this;
@@ -359,12 +359,6 @@ public class Employee
 	public List<Address> getAddresses()
 	{
 		return addresses;
-	}
-
-	public Employee setAddresses(List<Address> addresses)
-	{
-		this.addresses = addresses;
-		return this;
 	}
 
 	public List<Location> getLocations()

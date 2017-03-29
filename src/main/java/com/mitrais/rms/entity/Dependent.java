@@ -69,7 +69,7 @@ public class Dependent
 	)
 	private String lastModUser;
 	@ManyToOne(
-		cascade = CascadeType.ALL,
+		cascade = {CascadeType.PERSIST, CascadeType.MERGE},
 		fetch = FetchType.LAZY,
 		optional = true
 	)
@@ -78,6 +78,13 @@ public class Dependent
 		nullable = false
 	)
 	private Employee employee;
+	@Column(
+		name = "employee_id",
+		nullable = false,
+		insertable = false,
+		updatable = false
+	)
+	private Integer employeeId;
 
 	public Dependent()
 	{
@@ -86,6 +93,11 @@ public class Dependent
 	public Integer getId()
 	{
 		return id;
+	}
+
+	public Integer getEmployeeId()
+	{
+		return employeeId;
 	}
 
 	public DependentType getType()
@@ -136,5 +148,10 @@ public class Dependent
 	{
 		this.employee = employee;
 		return this;
+	}
+
+	public Employee getEmployee()
+	{
+		return employee;
 	}
 }

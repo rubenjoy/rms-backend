@@ -72,7 +72,7 @@ public class EmploymentHistory
 	)
 	private String lastModUser;
 	@ManyToOne(
-		cascade = CascadeType.ALL,
+		cascade = {CascadeType.PERSIST, CascadeType.MERGE},
 		fetch = FetchType.LAZY,
 		optional = true
 	)
@@ -90,6 +90,13 @@ public class EmploymentHistory
 		nullable = false
 	)
 	private Set<JobDescription> jobDesc;
+	@Column(
+		name = "employee_id",
+		nullable = false,
+		insertable = false,
+		updatable = false
+	)
+	private Integer employeeId;
 
 	public EmploymentHistory()
 	{
@@ -99,6 +106,11 @@ public class EmploymentHistory
 	public Integer getId()
 	{
 		return id;
+	}
+
+	public Integer getEmployeeId()
+	{
+		return employeeId;
 	}
 
 	public Date getStartDate()
@@ -160,6 +172,11 @@ public class EmploymentHistory
 	{
 		this.employee = employee;
 		return this;
+	}
+
+	public Employee getEmployee()
+	{
+		return employee;
 	}
 
 	public Set<JobDescription> getJobDesc()

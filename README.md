@@ -4,6 +4,12 @@ Mitrais Java Bootcamp Training Project, to practice Spring Framework: Data JPA, 
 The RMS backend provide RESTful API for RMS frontend. 
 The project still in development.
 
+# calling rest api
+
+all the api endpoint are located on /rms/api basepath.
+The employee entity can be obtained from /rms/api/employees endpoint.
+All weak entities are nested on /rms/api/employees endpoint.
+
 # commands
 
 - gradle clean
@@ -21,3 +27,5 @@ dependencies found on build.gradle:
 # TODO
 
 - Unit Test w/ Spring starter test & Mockito MVC
+- adding validation to DTO
+- Meaningfull error message for rest controller

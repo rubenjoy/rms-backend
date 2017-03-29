@@ -62,7 +62,7 @@ public class Location
 	)
 	private Boolean activeInd = false;
 	@ManyToOne(
-		cascade = CascadeType.ALL,
+		cascade = {CascadeType.PERSIST,CascadeType.MERGE},
 		fetch = FetchType.LAZY,
 		optional = true
 	)
@@ -71,6 +71,13 @@ public class Location
 		nullable = false
 	)
 	private Employee employee;
+	@Column(
+		name = "employee_id",
+		nullable = false,
+		insertable = false,
+		updatable = false
+	)
+	private Integer employeeId;
 
 	public Location()
 	{
@@ -80,6 +87,11 @@ public class Location
 	public Integer getId()
 	{
 		return id;
+	}
+
+	public Integer getEmployeeId()
+	{
+		return employeeId;
 	}
 
 	public String getBranchOffice()
@@ -130,5 +142,10 @@ public class Location
 	{
 		this.employee = employee;
 		return this;
+	}
+
+	public Employee getEmployee()
+	{
+		return employee;
 	}
 }

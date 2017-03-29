@@ -9,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -58,7 +56,13 @@ public class JobDescription
 	@Override
 	public int compareTo(JobDescription other)
 	{
-		return this.id - other.id;
+		if (id != null && other.id != null)
+			return this.id - other.id;
+		if (id != null)
+			return this.id;
+		if (description != null && other.description != null)
+			return description.compareTo(other.description);
+		return 0;
 	}
 
 	public String getDescription()
@@ -71,5 +75,10 @@ public class JobDescription
 	{
 		this.description = description;
 		return this;
+	}
+
+	public Integer getId()
+	{
+		return id;
 	}
 }
