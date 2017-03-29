@@ -40,7 +40,8 @@ public class Location
 	)
 	private String branchOffice;
 	@Column(
-		name = "start_date"
+		name = "start_date",
+		nullable = false
 	)
 	private Date startDate;
 	@Column(

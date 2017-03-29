@@ -1,5 +1,8 @@
 package com.mitrais.rms.controller.address;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,5 +53,26 @@ public class PostController
 		this.service.createAssociation(
 			employee, address);
 		return AddressDto.fromEntity(address);
+	}
+
+	@RequestMapping(
+		method = RequestMethod.POST,
+		value = "/batch"
+	)
+	@ResponseBody
+	public List<AddressDto> save(
+			@PathVariable Integer employeeId,
+			@RequestBody List<AddressDto> dtos
+		)
+	{
+		Employee employee = this.employeeRepo
+			.findOne( employeeId );
+		if (employee == null)
+			throw new EmployeeNotFoundException();
+		return dtos.stream()
+			.filter(e -> e != null)
+			.map(dto -> this.service.createAssociation(employee, dto.createEntity()))
+			.map(entity -> AddressDto.fromEntity( entity ))
+			.collect(Collectors.toList());
 	}
 }

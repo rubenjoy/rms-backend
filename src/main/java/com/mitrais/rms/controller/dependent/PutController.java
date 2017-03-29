@@ -46,6 +46,7 @@ public class PutController
 			);
 		if (entity == null)
 			throw new DependentNotFoundException();
+		entity = dto.updateEntity(entity);
 		this.service.updateAssociation(entity);
 		return DependentDto.fromEntity(entity);
 	}
