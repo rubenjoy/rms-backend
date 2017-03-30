@@ -19,7 +19,7 @@ public class EmployeeRestConfiguration
 			new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:3003");
+		config.addAllowedOrigin("*");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod(HttpMethod.GET);
 		config.addAllowedMethod(HttpMethod.POST);
@@ -27,7 +27,7 @@ public class EmployeeRestConfiguration
 		config.addAllowedMethod(HttpMethod.PUT);
 		config.addAllowedMethod(HttpMethod.HEAD);
 		config.addAllowedMethod(HttpMethod.DELETE);
-		source.registerCorsConfiguration("/rms/api/**/*", config);
+		source.registerCorsConfiguration("/**/*", config);
 		FilterRegistrationBean bean = 
 			new FilterRegistrationBean(
 				new CorsFilter(source)
