@@ -62,12 +62,12 @@ public class ShortEmployeeDto
 		return phone;
 	}
 
-	public String jobFamily()
+	public String getJobFamily()
 	{
 		return jobFamily;
 	}
 
-	public String jobTitle()
+	public String getJobTitle()
 	{
 		return jobTitle;
 	}

@@ -103,6 +103,15 @@ public class DependentDto
 		return this;
 	}
 
+	public DependentType getRelation()
+	{
+		return getType();
+	}
+
+	public DependentDto setRelation(DependentType relation) {
+		return setType(relation);
+	}
+
 	public Dependent createEntity()
 	{
 		Dependent dependent = new Dependent();
