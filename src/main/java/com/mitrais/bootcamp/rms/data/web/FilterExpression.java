@@ -22,11 +22,18 @@ public class FilterExpression {
         QEmployee employee = QEmployee.employee;
 
         if (!StringUtils.isEmpty(filter.getGender())) {
-            expression = expression == null ?  employee.gender.eq(filter.getGender()) : expression.and(employee.gender.eq(filter.getGender()));
+            BooleanExpression genderExp = employee.gender.eq(filter.getGender());
+            expression = expression == null ?  genderExp : expression.and(genderExp);
         }
 
         if (!StringUtils.isEmpty(filter.getDivision())) {
-            expression = expression == null ?  employee.division.eq(filter.getDivision()) : expression.and(employee.division.eq(filter.getDivision()));
+            BooleanExpression divisionExp = employee.division.eq(filter.getDivision());
+            expression = expression == null ? divisionExp  : expression.and(divisionExp);
+        }
+
+        if (!StringUtils.isEmpty(filter.isActive())) {
+            BooleanExpression activeExp = filter.isActive() ? employee.suspendDate.isNull() : employee.suspendDate.isNotNull();
+            expression = expression == null ?  activeExp : expression.and(activeExp);
         }
 
 //        if (!StringUtils.isEmpty(filter.getGrade())) {
