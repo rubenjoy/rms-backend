@@ -1,14 +1,16 @@
 package com.mitrais.bootcamp.rms.data.web;
 
+import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 
 public class FilterDTO {
     private String grade;
     private Gender gender;
-    private boolean isActive;
+    private String isActive;
     private String division;
     private String location;
     private String project;
+    private EmployeeStatus empStatus;
 
     public FilterDTO() {
     }
@@ -29,12 +31,12 @@ public class FilterDTO {
         this.gender = gender;
     }
 
-    public boolean isActive() {
+    public String getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
     }
 
     public String getDivision() {
@@ -59,5 +61,13 @@ public class FilterDTO {
 
     public void setProject(String project) {
         this.project = project;
+    }
+
+    public EmployeeStatus getEmpStatus() {
+        return empStatus;
+    }
+
+    public void setEmpStatus(EmployeeStatus empStatus) {
+        this.empStatus = empStatus;
     }
 }
