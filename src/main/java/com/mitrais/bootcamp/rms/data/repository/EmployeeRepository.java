@@ -1,12 +1,13 @@
 package com.mitrais.bootcamp.rms.data.repository;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
 
-public interface EmployeeRepository extends PagingAndSortingRepository<Employee,Long> {
+public interface EmployeeRepository extends PagingAndSortingRepository<Employee,Long>, QueryDslPredicateExecutor {
     Employee findByEmpId(Long empId);
 
     @Override
