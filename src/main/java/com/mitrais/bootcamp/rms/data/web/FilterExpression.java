@@ -2,6 +2,7 @@ package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.entity.QEmployee;
 import com.mitrais.bootcamp.rms.data.entity.QGrade;
+import com.mitrais.bootcamp.rms.data.entity.QOfficeLocation;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -48,10 +49,20 @@ public class FilterExpression {
             QGrade grade = QGrade.grade1;
 
             BooleanExpression exp = employee.grades.isNotEmpty().and(
-                    JPAExpressions.select(grade).from(grade).where(grade.in(employee.grades).and(grade.endDate.isNull().and(grade.grade.eq(filter.getGrade())))).exists());
+                    JPAExpressions.select(grade).from(grade).where(grade.in(employee.grades)
+                            .and(grade.endDate.isNull().and(grade.grade.eq(filter.getGrade())))).exists());
 
             expression = expression.and(exp);
         }
-        
+
+        if (!StringUtils.isEmpty(filter.getLocation())) {
+            QOfficeLocation location = QOfficeLocation.officeLocation1;
+
+            BooleanExpression exp = employee.officeLocations.isNotEmpty().and(
+                    JPAExpressions.select(location).from(location).where(location.in(employee.officeLocations)
+                            .and(location.endDate.isNull().and(location.officeLocation.eq(filter.getLocation())))).exists());
+
+            expression = expression.and(exp);
+        }
     }
 }
