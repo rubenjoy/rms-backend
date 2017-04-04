@@ -1,7 +1,10 @@
 package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.entity.QEmployee;
+import com.mitrais.bootcamp.rms.data.entity.QGrade;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -11,9 +14,9 @@ public class FilterExpression {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private BooleanExpression expression = null;
+    private BooleanBuilder expression = new BooleanBuilder();
 
-    public BooleanExpression getExpression() {
+    public BooleanBuilder getExpression() {
         return expression;
     }
 
@@ -23,34 +26,32 @@ public class FilterExpression {
 
         if (!StringUtils.isEmpty(filter.getGender())) {
             BooleanExpression exp = employee.gender.eq(filter.getGender());
-            expression = expression == null ?  exp : expression.and(exp);
+            expression = expression.and(exp);
         }
 
         if (!StringUtils.isEmpty(filter.getDivision())) {
             BooleanExpression exp = employee.division.eq(filter.getDivision());
-            expression = expression == null ? exp  : expression.and(exp);
+            expression = expression.and(exp);
         }
 
-        System.out.println("bug 1: " + !StringUtils.isEmpty(filter.getIsActive()));
         if (!StringUtils.isEmpty(filter.getIsActive())) {
             BooleanExpression exp = Boolean.parseBoolean(filter.getIsActive()) ? employee.suspendDate.isNull() : employee.suspendDate.isNotNull();
-            expression = expression == null ?  exp : expression.and(exp);
+            expression = expression.and(exp);
         }
 
         if (!StringUtils.isEmpty(filter.getEmpStatus())) {
             BooleanExpression exp = employee.empStatus.eq(filter.getEmpStatus());
-            expression = expression == null ?  exp : expression.and(exp);
+            expression = expression.and(exp);
         }
 
         if (!StringUtils.isEmpty(filter.getGrade())) {
+            QGrade grade = QGrade.grade1;
+
             BooleanExpression exp = employee.grades.isNotEmpty().and(
-                    employee.grades.any().grade.eq(filter.getGrade()).andAnyOf(employee.grades.any().endDate.isNotNull()));
+                    JPAExpressions.select(grade).from(grade).where(grade.in(employee.grades).and(grade.endDate.isNull().and(grade.grade.eq(filter.getGrade())))).exists());
 
-            System.out.println("gradeExpression: " + exp);
-            expression = expression == null ? exp :
-                    expression.and(exp);
+            expression = expression.and(exp);
         }
-
-        System.out.println("expression: " + expression);
+        
     }
 }

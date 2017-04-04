@@ -3,7 +3,7 @@ package com.mitrais.bootcamp.rms.data.web;
 import com.google.common.collect.Lists;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.BooleanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -55,7 +55,7 @@ public class EmployeeController {
     @RequestMapping(value = "employees/filter", method = RequestMethod.POST)
     ResponseEntity<Resources<Resource>> getEmployeeByFilter(@RequestBody FilterDTO filter) {
 
-        BooleanExpression empFilter = new FilterExpression(filter).getExpression();
+        BooleanBuilder empFilter = new FilterExpression(filter).getExpression();
         List<Employee> resultList = Lists.newArrayList(employeeRepository.findAll(empFilter));
 
         Resources<Resource> resourceList = constructResponseWithLink(resultList);
