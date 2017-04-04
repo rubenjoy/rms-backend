@@ -9,7 +9,6 @@ public class FilterDTO {
     private String isActive;
     private String division;
     private String location;
-    private String project;
     private EmployeeStatus empStatus;
 
     public FilterDTO() {
@@ -53,14 +52,6 @@ public class FilterDTO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
     }
 
     public EmployeeStatus getEmpStatus() {
