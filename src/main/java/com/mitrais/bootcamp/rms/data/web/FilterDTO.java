@@ -2,6 +2,7 @@ package com.mitrais.bootcamp.rms.data.web;
 
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
+import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 
 public class FilterDTO {
     private String grade;
@@ -10,6 +11,16 @@ public class FilterDTO {
     private String division;
     private String location;
     private EmployeeStatus empStatus;
+
+    public MaritalStatus getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    private MaritalStatus maritalStatus;
 
     public FilterDTO() {
     }
