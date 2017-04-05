@@ -45,6 +45,11 @@ public class FilterExpression {
             expression = expression.and(exp);
         }
 
+        if (!StringUtils.isEmpty(filter.getMaritalStatus())) {
+            BooleanExpression exp = employee.maritalStatus.eq(filter.getMaritalStatus());
+            expression = expression.and(exp);
+        }
+
         if (!StringUtils.isEmpty(filter.getGrade())) {
             QGrade grade = QGrade.grade1;
 
