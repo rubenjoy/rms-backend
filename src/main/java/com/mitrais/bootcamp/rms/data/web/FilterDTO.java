@@ -4,7 +4,7 @@ import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 
-public class FilterDTO {
+public class FilterDto {
     private String grade;
     private Gender gender;
     private String isActive;
@@ -22,7 +22,7 @@ public class FilterDTO {
 
     private MaritalStatus maritalStatus;
 
-    public FilterDTO() {
+    public FilterDto() {
     }
 
     public String getGrade() {
