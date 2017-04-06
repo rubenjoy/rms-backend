@@ -1,11 +1,13 @@
 package com.mitrais.bootcamp.rms.data.repository;
 
 import com.mitrais.bootcamp.rms.data.entity.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
-
-import java.util.List;
 
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee,Long>, QueryDslPredicateExecutor {
     Employee findByEmpId(Long empId);
@@ -22,12 +24,8 @@ public interface EmployeeRepository extends PagingAndSortingRepository<Employee,
     @RestResource(exported = false)
     void deleteAll();
 
-    List<Employee> findByFirstNameContainsOrLastNameContainsAllIgnoreCase(String firstName,
-                                                                         String lastName);
-
-//    @Query("SELECT e FROM Employee e where e.firstName = :firstName AND e.lastName = :lastName")
-//    public List<Employee> findByFullName(@Param("firstName") String firstName,
-//                                         @Param("lastName") String lastName);
+    @Query("SELECT e FROM Employee e where lower(concat(firstName, ' ', lastName)) like %:name%")
+    Page<Employee> findByName(@Param("name") String name, Pageable pageable);
 //
 //    @Query("SELECT e FROM Employee e where e.firstName like %:firstName%")
 //    public List<Employee> findByFirstName(@Param("firstName") String firstName);
