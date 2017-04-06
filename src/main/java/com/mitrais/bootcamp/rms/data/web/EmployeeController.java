@@ -5,6 +5,9 @@ import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
 import com.querydsl.core.BooleanBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -53,17 +56,18 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "employees/filter", method = RequestMethod.POST)
-    ResponseEntity<Resources<Resource>> getEmployeeByFilter(@RequestBody FilterDTO filter) {
+    Page<Resource> getEmployeeByFilter(@RequestBody FilterDto filter, Pageable pageable) {
 
         BooleanBuilder empFilter = new FilterExpression(filter).getExpression();
-        List<Employee> resultList = Lists.newArrayList(employeeRepository.findAll(empFilter));
+        Page<Employee> filterResult = employeeRepository.findAll(empFilter, pageable);
+        List<Employee> resultList = Lists.newArrayList(filterResult);
 
-        Resources<Resource> resourceList = constructResponseWithLink(resultList);
+        List<Resource> resourceList = constructResponseWithLink(resultList);
 
-        return new ResponseEntity<Resources<Resource>>(resourceList, HttpStatus.OK);
+        return new PageImpl<Resource>(resourceList, pageable, filterResult.getTotalPages());
     }
 
-    protected Resources<Resource> constructResponseWithLink(List<Employee> resultList) {
+    protected List<Resource> constructResponseWithLink(List<Employee> resultList) {
         List<Resource> empResources = new ArrayList<>();
         for (Employee emp :  resultList) {
             Link empLink = linkTo(EmployeeController.class).slash("/employees").slash(emp.getEmpId()).withSelfRel();
@@ -73,6 +77,7 @@ public class EmployeeController {
         }
 
         Link empsLink = linkTo(EmployeeController.class).slash("/employees").withSelfRel();
-        return new Resources<Resource>(empResources, empsLink);
+//        return new Resources<Resource>(empResources, empsLink);
+        return empResources;
     }
 }

@@ -21,7 +21,7 @@ public class FilterExpression {
         return expression;
     }
 
-    public FilterExpression(FilterDTO filter) {
+    public FilterExpression(FilterDto filter) {
 
         QEmployee employee = QEmployee.employee;
 
