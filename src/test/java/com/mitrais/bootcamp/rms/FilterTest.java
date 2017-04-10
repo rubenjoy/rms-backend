@@ -2,6 +2,7 @@ package com.mitrais.bootcamp.rms;
 
 import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
+import com.mitrais.bootcamp.rms.data.constanta.MaritalStatus;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
 import com.mitrais.bootcamp.rms.data.web.FilterDto;
@@ -38,7 +39,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RmsApplication.class)
 @WebAppConfiguration
-public class EmployeeControllerTest {
+public class FilterTest {
 
     private MockMvc mockMvc;
 
@@ -82,22 +83,30 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void addEmployee() throws Exception {
+    public void filterEmpty() throws Exception {
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(new FilterDto())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(0)));
+    }
+
+    @Test
+    public void emptyFilter() throws Exception {
 
         Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
+        newEmployee.setFirstName("Cal");
+        newEmployee.setLastName("Supreme");
         newEmployee.setPhone("+621");
         newEmployee.setEmail("employee.1@mitrais.com");
         newEmployee.setGender(Gender.Male);
         newEmployee.setEmpStatus(EmployeeStatus.Contract);
         newEmployee.setJobFamily("SE");
         newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        mockMvc.perform(post("/employees")
-                .contentType(jsonContentType)
-                .content(this.json(newEmployee)))
-                .andExpect(status().isCreated());
+        newEmployee = employeeRepository.save(newEmployee);
 
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
                 .contentType(jsonContentType)
@@ -116,173 +125,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void addEmployeeDuplicatePhone() throws Exception {
-
-        Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
-        newEmployee.setPhone("+621");
-        newEmployee.setEmail("employee.1@mitrais.com");
-        newEmployee.setGender(Gender.Male);
-        newEmployee.setEmpStatus(EmployeeStatus.Contract);
-        newEmployee.setJobFamily("SE");
-        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-
-        mockMvc.perform(post("/employees")
-                .contentType(jsonContentType)
-                .content(this.json(newEmployee)))
-                .andExpect(status().isCreated());
-
-        Employee secondEmployee = new Employee();
-        secondEmployee.setFirstName("employee");
-        secondEmployee.setLastName("2");
-        secondEmployee.setPhone("+621");
-        secondEmployee.setEmail("employee.2@mitrais.com");
-        secondEmployee.setGender(Gender.Female);
-        secondEmployee.setEmpStatus(EmployeeStatus.Permanent);
-        secondEmployee.setJobFamily("SE");
-        secondEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-
-
-        mockMvc.perform(post("/employees")
-                .contentType(jsonContentType)
-                .content(this.json(secondEmployee)))
-                .andExpect(status().isConflict());
-    }
-
-    @Test
-    public void addEmployeeDuplicateEmail() throws Exception {
-
-        Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
-        newEmployee.setPhone("+621");
-        newEmployee.setEmail("employee.1@mitrais.com");
-        newEmployee.setGender(Gender.Male);
-        newEmployee.setEmpStatus(EmployeeStatus.Contract);
-        newEmployee.setJobFamily("SE");
-        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-
-        mockMvc.perform(post("/employees")
-                .contentType(jsonContentType)
-                .content(this.json(newEmployee)))
-                .andExpect(status().isCreated());
-
-        Employee secondEmployee = new Employee();
-        secondEmployee.setFirstName("employee");
-        secondEmployee.setLastName("2");
-        secondEmployee.setPhone("+622");
-        secondEmployee.setEmail("employee.1@mitrais.com");
-        secondEmployee.setGender(Gender.Female);
-        secondEmployee.setEmpStatus(EmployeeStatus.Permanent);
-        secondEmployee.setJobFamily("SE");
-        secondEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-
-
-        mockMvc.perform(post("/employees")
-                .contentType(jsonContentType)
-                .content(this.json(secondEmployee)))
-                .andExpect(status().isConflict());
-    }
-
-    @Test
-    public void getSingleEmployee() throws Exception {
-
-        Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
-        newEmployee.setPhone("+621");
-        newEmployee.setEmail("employee.1@mitrais.com");
-        newEmployee.setGender(Gender.Male);
-        newEmployee.setEmpStatus(EmployeeStatus.Contract);
-        newEmployee.setJobFamily("SE");
-        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-
-        Employee savedEmployee = employeeRepository.save(newEmployee);
-
-        mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"0\"")))
-                .andExpect(jsonPath("$.empId", comparesEqualTo(toIntExact(savedEmployee.getEmpId()))))
-                .andExpect(jsonPath("$.firstName", equalToIgnoringCase(newEmployee.getFirstName())))
-                .andExpect(jsonPath("$.lastName", equalToIgnoringCase(newEmployee.getLastName())))
-                .andExpect(jsonPath("$.phone", equalToIgnoringCase(newEmployee.getPhone())))
-                .andExpect(jsonPath("$.gender", equalToIgnoringCase(newEmployee.getGender().name())))
-                .andExpect(jsonPath("$.empStatus", equalToIgnoringCase(newEmployee.getEmpStatus().name())))
-                .andExpect(jsonPath("$.jobFamily", equalToIgnoringCase(newEmployee.getJobFamily())))
-                .andExpect(jsonPath("$.hiredDate", equalToIgnoringCase(newEmployee.getHiredDate().toString())));
-    }
-
-    @Test
-    public void patchEmployee() throws Exception {
-
-        Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
-        newEmployee.setPhone("+621");
-        newEmployee.setEmail("employee.1@mitrais.com");
-        newEmployee.setGender(Gender.Male);
-        newEmployee.setEmpStatus(EmployeeStatus.Contract);
-        newEmployee.setJobFamily("SE");
-        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-
-        Employee savedEmployee = employeeRepository.save(newEmployee);
-
-        newEmployee.setLastName("updated");
-
-        mockMvc.perform(patch("/employees/"+savedEmployee.getEmpId())
-                .contentType(jsonContentType)
-                .header("If-Match", "\"0\"")
-                .content(this.json(newEmployee)))
-                .andExpect(status().isNoContent());
-
-        mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
-                .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
-                .andExpect(jsonPath("$.empId", comparesEqualTo(toIntExact(savedEmployee.getEmpId()))))
-                .andExpect(jsonPath("$.firstName", equalToIgnoringCase(newEmployee.getFirstName())))
-                .andExpect(jsonPath("$.lastName", equalToIgnoringCase(newEmployee.getLastName())))
-                .andExpect(jsonPath("$.phone", equalToIgnoringCase(newEmployee.getPhone())))
-                .andExpect(jsonPath("$.gender", equalToIgnoringCase(newEmployee.getGender().name())))
-                .andExpect(jsonPath("$.empStatus", equalToIgnoringCase(newEmployee.getEmpStatus().name())))
-                .andExpect(jsonPath("$.jobFamily", equalToIgnoringCase(newEmployee.getJobFamily())))
-                .andExpect(jsonPath("$.hiredDate", equalToIgnoringCase(newEmployee.getHiredDate().toString())));
-    }
-
-    @Test
-    public void patchEmployeeErrorEtag() throws Exception {
-
-        Employee newEmployee = new Employee();
-        newEmployee.setFirstName("employee");
-        newEmployee.setLastName("1");
-        newEmployee.setPhone("+621");
-        newEmployee.setEmail("employee.1@mitrais.com");
-        newEmployee.setGender(Gender.Male);
-        newEmployee.setEmpStatus(EmployeeStatus.Contract);
-        newEmployee.setJobFamily("SE");
-        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-        newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-
-        Employee savedEmployee = employeeRepository.save(newEmployee);
-
-        newEmployee.setLastName("updated");
-
-        savedEmployee = employeeRepository.save(newEmployee);
-
-        mockMvc.perform(patch("/employees/"+savedEmployee.getEmpId())
-                .contentType(jsonContentType)
-                .header("If-Match", "\"0\"")
-                .content(this.json(newEmployee)))
-                .andExpect(status().isPreconditionFailed());
-    }
-
-    @Test
-    public void searchByName() throws Exception {
+    public void filterByGender() throws Exception {
 
         Employee newEmployee = new Employee();
         newEmployee.setFirstName("Cal");
@@ -296,7 +139,7 @@ public class EmployeeControllerTest {
         newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        Employee savedEmployee = employeeRepository.save(newEmployee);
+        newEmployee = employeeRepository.save(newEmployee);
 
         Employee secondEmployee = new Employee();
         secondEmployee.setFirstName("Cal");
@@ -310,16 +153,46 @@ public class EmployeeControllerTest {
         secondEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         secondEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        savedEmployee = employeeRepository.save(secondEmployee);
+        secondEmployee = employeeRepository.save(secondEmployee);
 
-        mockMvc.perform(get("/employees/search/findByName?name=cal sup"))
+        Employee thirdEmployee = new Employee();
+        thirdEmployee.setFirstName("Employee");
+        thirdEmployee.setLastName("3");
+        thirdEmployee.setPhone("+624");
+        thirdEmployee.setEmail("employee.4@mitrais.com");
+        thirdEmployee.setGender(Gender.Female);
+        thirdEmployee.setEmpStatus(EmployeeStatus.Permanent);
+        thirdEmployee.setJobFamily("SE");
+        thirdEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+
+        thirdEmployee = employeeRepository.save(thirdEmployee);
+
+        FilterDto filter = new FilterDto();
+        filter.setGender(Gender.Male);
+
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
-                .andExpect(jsonPath("$._embedded.employees", hasSize(2)));
+                .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
+
+        filter.setGender(Gender.Female);
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
     }
 
     @Test
-    public void searchByNameEmptyParam() throws Exception {
+    public void filterByActiveEmployee() throws Exception {
 
         Employee newEmployee = new Employee();
         newEmployee.setFirstName("Cal");
@@ -333,7 +206,7 @@ public class EmployeeControllerTest {
         newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        Employee savedEmployee = employeeRepository.save(newEmployee);
+        newEmployee = employeeRepository.save(newEmployee);
 
         Employee secondEmployee = new Employee();
         secondEmployee.setFirstName("Cal");
@@ -347,16 +220,50 @@ public class EmployeeControllerTest {
         secondEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         secondEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        savedEmployee = employeeRepository.save(secondEmployee);
+        secondEmployee = employeeRepository.save(secondEmployee);
 
-        mockMvc.perform(get("/employees/search/findByName?name="))
+        secondEmployee.setSuspendDate(new Date(Calendar.getInstance().getTimeInMillis()));
+
+        secondEmployee = employeeRepository.save(secondEmployee);
+
+        Employee thirdEmployee = new Employee();
+        thirdEmployee.setFirstName("Employee");
+        thirdEmployee.setLastName("3");
+        thirdEmployee.setPhone("+624");
+        thirdEmployee.setEmail("employee.4@mitrais.com");
+        thirdEmployee.setGender(Gender.Female);
+        thirdEmployee.setEmpStatus(EmployeeStatus.Permanent);
+        thirdEmployee.setJobFamily("SE");
+        thirdEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+
+        thirdEmployee = employeeRepository.save(thirdEmployee);
+
+        FilterDto filter = new FilterDto();
+        filter.setIsActive("true");
+
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
-                .andExpect(jsonPath("$._embedded.employees", hasSize(2)));
+                .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
+
+        filter.setIsActive("false");
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
     }
 
     @Test
-    public void searchByNameEmptyResult() throws Exception {
+    public void filterByEmployeeContract() throws Exception {
 
         Employee newEmployee = new Employee();
         newEmployee.setFirstName("Cal");
@@ -370,7 +277,7 @@ public class EmployeeControllerTest {
         newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        Employee savedEmployee = employeeRepository.save(newEmployee);
+        newEmployee = employeeRepository.save(newEmployee);
 
         Employee secondEmployee = new Employee();
         secondEmployee.setFirstName("Cal");
@@ -384,11 +291,111 @@ public class EmployeeControllerTest {
         secondEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
         secondEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 
-        savedEmployee = employeeRepository.save(secondEmployee);
+        secondEmployee = employeeRepository.save(secondEmployee);
 
-        mockMvc.perform(get("/employees/search/findByName?name=employee panjang namanya"))
+        Employee thirdEmployee = new Employee();
+        thirdEmployee.setFirstName("Employee");
+        thirdEmployee.setLastName("3");
+        thirdEmployee.setPhone("+624");
+        thirdEmployee.setEmail("employee.4@mitrais.com");
+        thirdEmployee.setGender(Gender.Female);
+        thirdEmployee.setEmpStatus(EmployeeStatus.Permanent);
+        thirdEmployee.setJobFamily("SE");
+        thirdEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+
+        thirdEmployee = employeeRepository.save(thirdEmployee);
+
+        FilterDto filter = new FilterDto();
+        filter.setEmpStatus(EmployeeStatus.Permanent);
+
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page.totalElements", is(0)))
-                .andExpect(jsonPath("$._embedded.employees", hasSize(0)));
+                .andExpect(jsonPath("$.page.totalElements", is(2)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
+
+        filter.setEmpStatus(EmployeeStatus.Contract);
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))));
+    }
+
+    @Test
+    public void filterByMaritalStatus() throws Exception {
+
+        Employee newEmployee = new Employee();
+        newEmployee.setFirstName("Cal");
+        newEmployee.setLastName("Supreme");
+        newEmployee.setPhone("+621");
+        newEmployee.setEmail("employee.1@mitrais.com");
+        newEmployee.setGender(Gender.Male);
+        newEmployee.setEmpStatus(EmployeeStatus.Contract);
+        newEmployee.setJobFamily("SE");
+        newEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        newEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        newEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        newEmployee.setMaritalStatus(MaritalStatus.Married);
+
+        newEmployee = employeeRepository.save(newEmployee);
+
+        Employee secondEmployee = new Employee();
+        secondEmployee.setFirstName("Cal");
+        secondEmployee.setLastName("Superman");
+        secondEmployee.setPhone("+622");
+        secondEmployee.setEmail("employee.2@mitrais.com");
+        secondEmployee.setGender(Gender.Male);
+        secondEmployee.setEmpStatus(EmployeeStatus.Permanent);
+        secondEmployee.setJobFamily("SE");
+        secondEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        secondEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        secondEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        secondEmployee.setMaritalStatus(MaritalStatus.Married);
+
+        secondEmployee = employeeRepository.save(secondEmployee);
+
+        Employee thirdEmployee = new Employee();
+        thirdEmployee.setFirstName("Employee");
+        thirdEmployee.setLastName("3");
+        thirdEmployee.setPhone("+624");
+        thirdEmployee.setEmail("employee.4@mitrais.com");
+        thirdEmployee.setGender(Gender.Female);
+        thirdEmployee.setEmpStatus(EmployeeStatus.Permanent);
+        thirdEmployee.setJobFamily("SE");
+        thirdEmployee.setHiredDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setDateAdded(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setLastModified(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+        thirdEmployee.setMaritalStatus(MaritalStatus.Single);
+
+        thirdEmployee = employeeRepository.save(thirdEmployee);
+
+        FilterDto filter = new FilterDto();
+        filter.setMaritalStatus(MaritalStatus.Married);
+
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(2)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
+
+        filter.setMaritalStatus(MaritalStatus.Single);
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
     }
 }
