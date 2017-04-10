@@ -9,12 +9,14 @@ public class ProjectJobDescConverter implements AttributeConverter<String[], Str
     @Override
     public String convertToDatabaseColumn(String[] jobDesc) {
 
-        if (jobDesc == null) return "";
+        if (jobDesc == null) return null;
+        if (jobDesc.length == 0) return null;
         return Arrays.toString(jobDesc);
     }
 
     @Override
     public String[] convertToEntityAttribute(String jobDesc) {
+        if (jobDesc == null) return null;
         if (jobDesc.isEmpty()) return null;
         return jobDesc.substring(1, jobDesc.length() - 1).split(", ");
     }
