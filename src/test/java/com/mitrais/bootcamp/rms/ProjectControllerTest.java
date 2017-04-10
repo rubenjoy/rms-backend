@@ -285,7 +285,7 @@ public class ProjectControllerTest {
     }
 
     @Test
-    public void updateExistingGrade() throws Exception {
+    public void updateExistingProject() throws Exception {
 
         Employee newEmployee = new Employee();
         newEmployee.setFirstName("employee");
