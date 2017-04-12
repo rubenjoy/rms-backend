@@ -397,5 +397,12 @@ public class FilterTest {
                 .andExpect(jsonPath("$.page.totalElements", is(1)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
                 .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
+
+        filter.setMaritalStatus(MaritalStatus.Divorced);
+        mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
+                .contentType(jsonContentType)
+                .content(this.json(filter)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.page.totalElements", is(0)));
     }
 }

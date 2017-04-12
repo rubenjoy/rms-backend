@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee,Long>, QueryDslPredicateExecutor {
+    @RestResource(exported = false)
     Employee findByEmpId(Long empId);
 
     @Override
