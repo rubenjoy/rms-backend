@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
 public class EmployeeController {
@@ -43,19 +36,5 @@ public class EmployeeController {
         Page<Employee> filterResult = employeeRepository.findAll(empFilter, pageable);
 
         return new ResponseEntity<>(pagedAssembler.toResource(filterResult), HttpStatus.OK);
-    }
-
-    protected List<Resource> constructResponseWithLink(List<Employee> resultList) {
-        List<Resource> empResources = new ArrayList<>();
-        for (Employee emp :  resultList) {
-            Link empLink = linkTo(EmployeeController.class).slash("/employees").slash(emp.getEmpId()).withSelfRel();
-            Resource empResource = new Resource<Employee>(emp, empLink.expand(emp.getEmpId()));
-
-            empResources.add(empResource);
-        }
-
-        Link empsLink = linkTo(EmployeeController.class).slash("/employees").withSelfRel();
-//        return new Resources<Resource>(empResources, empsLink);
-        return empResources;
     }
 }
