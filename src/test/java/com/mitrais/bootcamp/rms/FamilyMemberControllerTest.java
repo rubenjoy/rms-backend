@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
@@ -17,9 +18,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -34,13 +33,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RmsApplication.class)
-@WebAppConfiguration
+@SpringBootTest
+@AutoConfigureMockMvc
 public class FamilyMemberControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     private MediaType halContentType = new MediaType(MediaTypes.HAL_JSON, Charset.forName("utf8"));
@@ -49,9 +48,6 @@ public class FamilyMemberControllerTest {
             Charset.forName("utf8"));
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -77,8 +73,6 @@ public class FamilyMemberControllerTest {
 
     @Before
     public void setup() throws Exception {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
-
         this.employeeRepository.deleteAll();
     }
 
@@ -165,13 +159,13 @@ public class FamilyMemberControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/family")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(family)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.familyMembers", hasSize(2)));
     }
 
@@ -239,13 +233,13 @@ public class FamilyMemberControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/family")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(family)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.familyMembers", hasSize(0)));
     }
 
@@ -293,13 +287,13 @@ public class FamilyMemberControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/family")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(family)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.familyMembers", hasSize(1)));
     }
 
@@ -338,13 +332,13 @@ public class FamilyMemberControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/family")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(family)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.familyMembers", hasSize(1)))
                 .andExpect(jsonPath("$.familyMembers[0].active", is(fam1.isActive())));
     }
