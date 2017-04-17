@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
@@ -17,9 +18,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -31,16 +30,17 @@ import java.util.Calendar;
 import static java.lang.Math.toIntExact;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RmsApplication.class)
-@WebAppConfiguration
+@SpringBootTest
+@AutoConfigureMockMvc
 public class FilterTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     private MediaType halContentType = new MediaType(MediaTypes.HAL_JSON, Charset.forName("utf8"));
@@ -49,9 +49,6 @@ public class FilterTest {
             Charset.forName("utf8"));
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -77,8 +74,6 @@ public class FilterTest {
 
     @Before
     public void setup() throws Exception {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
-
         this.employeeRepository.deleteAll();
     }
 
@@ -178,8 +173,8 @@ public class FilterTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
-                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
 
         filter.setGender(Gender.Female);
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
@@ -249,8 +244,8 @@ public class FilterTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
-                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
 
         filter.setIsActive("false");
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
@@ -316,8 +311,8 @@ public class FilterTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))))
-                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(thirdEmployee.getEmpId()))));
 
         filter.setEmpStatus(EmployeeStatus.Contract);
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
@@ -386,8 +381,8 @@ public class FilterTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(2)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
-                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
-                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
+                .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
+                .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
 
         filter.setMaritalStatus(MaritalStatus.Single);
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")

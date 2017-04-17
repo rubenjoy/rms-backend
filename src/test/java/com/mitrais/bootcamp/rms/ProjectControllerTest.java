@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
@@ -16,9 +17,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -33,13 +32,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = RmsApplication.class)
-@WebAppConfiguration
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ProjectControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
     private MediaType halContentType = new MediaType(MediaTypes.HAL_JSON, Charset.forName("utf8"));
@@ -48,9 +47,6 @@ public class ProjectControllerTest {
             Charset.forName("utf8"));
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -76,8 +72,6 @@ public class ProjectControllerTest {
 
     @Before
     public void setup() throws Exception {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
-
         this.employeeRepository.deleteAll();
     }
 
@@ -155,13 +149,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(2)));
     }
 
@@ -226,13 +220,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(0)));
     }
 
@@ -274,13 +268,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(1)));
     }
 
@@ -316,13 +310,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(1)))
                 .andExpect(jsonPath("$.projects[0].endDate", equalToIgnoringCase(project1.getEndDate().toString())));
     }
@@ -400,13 +394,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(1)))
                 .andExpect(jsonPath("$.projects[0].jobDesc", hasSize(3)))
                 .andExpect(jsonPath("$.projects[0].jobDesc", containsInAnyOrder(project1.getJobDesc())));
@@ -445,13 +439,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(1)))
                 .andExpect(jsonPath("$.projects[0].jobDesc", hasSize(1)))
                 .andExpect(jsonPath("$.projects[0].jobDesc", containsInAnyOrder(project1.getJobDesc())));
@@ -491,13 +485,13 @@ public class ProjectControllerTest {
 
         mockMvc.perform(put("/employees/"+savedEmployee.getEmpId()+"/projects")
                 .contentType(jsonContentType)
-                .header("If-Match", "\"1\"")
+                .header("If-Match", "\"0\"")
                 .content(this.json(projects)))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/employees/"+savedEmployee.getEmpId()))
                 .andExpect(status().isOk())
-                .andExpect(header().string("Etag", equalToIgnoringCase("\"2\"")))
+                .andExpect(header().string("Etag", equalToIgnoringCase("\"1\"")))
                 .andExpect(jsonPath("$.projects", hasSize(1)))
                 .andExpect(jsonPath("$.projects[0].jobDesc", isEmptyOrNullString() ));
     }
