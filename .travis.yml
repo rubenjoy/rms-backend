@@ -1,23 +1,19 @@
 language: java
 jdk:
 - oraclejdk8
-
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script: mvn test
-
 deploy:
   provider: heroku
   api_key:
-    secure: aOTQgFrqjlTJF01Z1Dfrf/b8j7WEh0QOXHSl1HYw26gqdUhP4OsxVnHLq4yTmy0S4QR/ESDyD+DPBLHUw6pq6M10pIwbv2aUtnt9FaO45P3Al10JGeGM9Y4NwoXBtXFc1sjXhkT72ijqZZB+BCc1SXvq8Ilmr6ZjPY4qv+9lP7U=
+    secure: gXgDBv6RGLBQr/g5tjoj1isJrafQU+cQXKAhdksIhsQ2xASMNYwI73wqrr+O0p5FgpFTRpK0LsXyFByh3+qBO8PLGqyUdkvyAFbtyyYBNOtg/putZC572pM9vUXdgzNCIwwvzipUtNm4wW8kiJAuima4aEPmhywGBKLtsNPIeqAbFQlKbtpsqZivvGOwj0Aqx74+EoRsTpX3EvOqN98VqpNMB++ztn1NdG8bE/hrddoYmHaFR8Axw+oxHob/+A9yIOMg5GjrEqFtpE6orAWe4fF6U9YPAA1e+DZsW9KCLqpKip9E4xR6VzNf3vYt+xWG0qNUmvYq65CAANc+DN4Eq2oFtvLdB9UaDQUKODtoWfiMhrCmvvYkltlayAGHrFnQfiRp8MFuZ8ngvnUshl5U5oEZc78tnpKLlE0eQGnX7WuKTZFPMqheiguCZAgdKEZke9nM9FmpgDTMxNSXQv19gCTU3drQdYe4I2AJZkF7VLjQc6acfXT/hMyks/PTaha4xTLrNL35iw8pRBrxr/ahCUny/s3i29S2LUTbMr5bsqkbRyznKn8vd4bC5tSsKf5h5k3oUu3LjPi7SeTofD7skqUpUI5jHsiGuzTgvSrPEjMZB0NvrhYg5rKG/gQyB/Gbhso1o6G7nw+r96lcIid6rO39WGfxt6AO2cxpY5/BbbY=
   app:
     master: rmsbackendspring
     dev: rmsbackendspringstaging
-
 cache:
   directories:
-  - .autoconf
-  - $HOME/.m2
-
+  - ".autoconf"
+  - "$HOME/.m2"
 notifications:
   email:
-    - irfani.angela@gmail.com
+  - irfani.angela@gmail.com
