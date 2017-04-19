@@ -5,6 +5,12 @@ jdk:
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 script: mvn test
 
+deploy:
+  provider: heroku
+  api_key:
+    secure: 31db7e93abceef03af7db5914e8b66d9
+  app: rmsbackendspring
+
 cache:
   directories:
   - .autoconf
