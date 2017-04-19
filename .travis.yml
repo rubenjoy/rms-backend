@@ -1,6 +1,6 @@
 language: java
 
-script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 after_script: mvn test
 
 cache:
