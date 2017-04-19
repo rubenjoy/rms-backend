@@ -9,7 +9,9 @@ deploy:
   provider: heroku
   api_key:
     secure: 31db7e93abceef03af7db5914e8b66d9
-  app: rmsbackendspring
+  app:
+    master: rmsbackendspring
+    dev: rmsbackendspringstaging
 
 cache:
   directories:
