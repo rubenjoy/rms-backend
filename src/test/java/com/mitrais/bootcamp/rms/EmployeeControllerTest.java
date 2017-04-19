@@ -4,7 +4,7 @@ import com.mitrais.bootcamp.rms.data.constanta.EmployeeStatus;
 import com.mitrais.bootcamp.rms.data.constanta.Gender;
 import com.mitrais.bootcamp.rms.data.entity.Employee;
 import com.mitrais.bootcamp.rms.data.repository.EmployeeRepository;
-import com.mitrais.bootcamp.rms.data.web.FilterDto;
+import com.mitrais.bootcamp.rms.data.web.FilterDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,7 +99,7 @@ public class EmployeeControllerTest {
 
         mockMvc.perform(post("/employees/filter?sort=dateAdded,desc")
                 .contentType(jsonContentType)
-                .content(this.json(new FilterDto())))
+                .content(this.json(new FilterDTO())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page.totalElements", is(1)))
                 .andExpect(jsonPath("$._embedded.employees", hasSize(1)))

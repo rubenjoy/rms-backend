@@ -29,7 +29,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "employees/filter", method = RequestMethod.POST)
-    HttpEntity<PagedResources<Employee>> getEmployeeByFilter(@RequestBody FilterDto filter, Pageable pageable,
+    HttpEntity<PagedResources<Employee>> getEmployeeByFilter(@RequestBody FilterDTO filter, Pageable pageable,
                                                              PagedResourcesAssembler pagedAssembler) {
 
         BooleanBuilder empFilter = new FilterExpression(filter).getExpression();
