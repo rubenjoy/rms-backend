@@ -8,7 +8,7 @@ script: mvn test
 deploy:
   provider: heroku
   api_key:
-    secure: 31db7e93abceef03af7db5914e8b66d9
+    secure: aOTQgFrqjlTJF01Z1Dfrf/b8j7WEh0QOXHSl1HYw26gqdUhP4OsxVnHLq4yTmy0S4QR/ESDyD+DPBLHUw6pq6M10pIwbv2aUtnt9FaO45P3Al10JGeGM9Y4NwoXBtXFc1sjXhkT72ijqZZB+BCc1SXvq8Ilmr6ZjPY4qv+9lP7U=
   app:
     master: rmsbackendspring
     dev: rmsbackendspringstaging
