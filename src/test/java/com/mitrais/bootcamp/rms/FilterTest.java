@@ -379,8 +379,8 @@ public class FilterTest {
                 .contentType(jsonContentType)
                 .content(this.json(filter)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page.totalElements", is(2)))
-                .andExpect(jsonPath("$._embedded.employees", hasSize(2)))
+                .andExpect(jsonPath("$.page.totalElements", is(1)))
+                .andExpect(jsonPath("$._embedded.employees", hasSize(1)))
                 .andExpect(jsonPath("$._embedded.employees[1].empId", comparesEqualTo(toIntExact(newEmployee.getEmpId()))))
                 .andExpect(jsonPath("$._embedded.employees[0].empId", comparesEqualTo(toIntExact(secondEmployee.getEmpId()))));
 
