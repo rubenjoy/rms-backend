@@ -1,0 +1,12 @@
+language: java
+
+after_script: mvn test
+
+cache:
+  directories:
+  - .autoconf
+  - $HOME/.m2
+
+notifications:
+  email:
+    - irfani.angela@gmail.com
