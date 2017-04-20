@@ -1,5 +1,5 @@
 # rms-backend
-backend part of rms using spring boot
+backend part of rms (https://github.com/angelairfani/rms-mobx) using spring boot
 
 __demo site__   
 dev branch: https://rmsbackendspringstaging.herokuapp.com   
