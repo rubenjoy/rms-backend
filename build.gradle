@@ -28,5 +28,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("com.h2database:h2:1.4.191")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude module: 'mockito-core'
+    }
+    testCompile("org.mockito:mockito-core:2.7.22")
+    testCompile("io.rest-assured:rest-assured:3.0.1")
+    testCompile("io.rest-assured:spring-mock-mvc:3.0.1")
 }
