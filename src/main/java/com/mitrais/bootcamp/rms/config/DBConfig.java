@@ -3,12 +3,14 @@ package com.mitrais.bootcamp.rms.config;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @Configuration
+@Profile("runtime")
 public class DBConfig {
     @Bean
     public DataSource dataSource() throws URISyntaxException {
