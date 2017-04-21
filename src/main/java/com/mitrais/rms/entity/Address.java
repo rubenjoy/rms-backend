@@ -81,7 +81,7 @@ public class Address
 
 	public Integer getEmployeeId()
 	{
-		return employeeId;
+		return employee.getId();
 	}
 
 	public String getAddress()

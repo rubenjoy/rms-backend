@@ -44,9 +44,6 @@ public class GetController
 			);
 		if (address == null) 
 			throw new AddressNotFoundException();
-		assert address.getId() != null : address;
-		assert address.getAddress() != null : address;
-		assert address.getActiveInd() != null : address;
 		return AddressDto.fromEntity(address);
 	}
 

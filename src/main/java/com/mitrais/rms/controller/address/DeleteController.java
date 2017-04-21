@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrais.rms.controller.IDeleteController;
+import com.mitrais.rms.controller.commons.exception.AddressNotFoundException;
 import com.mitrais.rms.entity.Address;
 import com.mitrais.rms.repository.AddressRepository;
 import com.mitrais.rms.service.AddressService;
@@ -43,7 +44,7 @@ public class DeleteController
 				addressId, employeeId
 			);
 		if (entity == null) 
-			return;
+			throw new AddressNotFoundException();
 		this.service.deleteAssociation(entity);
 	}
 }

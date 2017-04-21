@@ -1,11 +1,5 @@
 package com.mitrais.rms.controller.employee;
 
-import java.lang.reflect.Field;
-import static java.util.Collections.nCopies;
-
-import com.mitrais.rms.entity.Employee;
-import com.mitrais.rms.repository.EmployeeRepository;
-
 import com.mitrais.rms.entity.Employee;
 import com.mitrais.rms.entity.enumerated.Gender;
 import com.mitrais.rms.entity.enumerated.MaritalStatus;
@@ -22,33 +16,30 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@DataJpaTest
+@ComponentScan
 @RunWith(SpringRunner.class)
-public class GetControllerTest
+public class GetControllerWithJpaTest
 {
 	@Autowired
+	@Qualifier("employeeGetController")
 	private GetController getController;
 
-	@Configuration
-	@Import(GetController.class)
-	static class Config {}
+	@Autowired
+	private TestEntityManager entityManager;
 
-	@MockBean
-	private EmployeeRepository employeeRepository;
+	private Integer createdId;
 
 	@Before
 	public void setup()
-	{
+	{ // TODO no need entityManager
 		Employee e = new Employee();
 		e.setName("Mukidi")
 			.setBirthDate(parse("2017-12-12"))
@@ -65,33 +56,9 @@ public class GetControllerTest
 			.setDivision("CDC Java")
 			.setBusinessUnit("buscom")
 			.setNationality(Nationality.INDONESIAN);
-
-		try {
-			Field id = e.getClass().getDeclaredField("id");
-			id.setAccessible(true);
-			id.set(e, new Integer(2));
-		} catch(Exception ex) {
-			System.err.println(ex.getMessage());
-		}
-
-		Mockito.when(employeeRepository.findAll()).
-			thenReturn(nCopies(1,e));
-		Mockito.when(employeeRepository.findOne(anyInt())).
-			thenAnswer(new Answer() {
-				public Object answer(InvocationOnMock invocation) {
-					Integer intId = (Integer) invocation.getArguments()[0];
-
-					try {
-						Field id = e.getClass().getDeclaredField("id");
-						id.setAccessible(true);
-						id.set(e, intId);
-					} catch(Exception ex) {
-						System.err.println(ex.getMessage());
-					}
-
-					return e;
-				}
-			});
+		entityManager.persist(e);
+		createdId = e.getId();
+		assert createdId != null;
 	}
 
 	@Test
@@ -100,11 +67,11 @@ public class GetControllerTest
 		given().
 			standaloneSetup(this.getController).
 		when().
-			get("/employees/{employeeId}", 3).
+			get("/employees/{employeeId}", createdId.intValue()).
 		then().
 			statusCode(200).
 			contentType(ContentType.JSON).
-			body("id", equalTo("/employees/" + 3)).
+			body("id", equalTo("/employees/" + createdId.toString())).
 			body("name", equalTo("Mukidi")).
 			body("birthDate", equalTo("2017-12-12"));
 	}
@@ -119,7 +86,7 @@ public class GetControllerTest
 		then().
 			statusCode(200).
 			contentType(ContentType.JSON).
-			body("id", hasItems("/employees/" + 2)).
+			body("id", hasItems("/employees/" + createdId.toString())).
 			body("name", hasItems("Mukidi"));
 	}
 }
