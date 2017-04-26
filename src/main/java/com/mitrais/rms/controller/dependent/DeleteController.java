@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrais.rms.controller.IDeleteController;
+import com.mitrais.rms.controller.commons.exception.DependentNotFoundException;
 import com.mitrais.rms.entity.Dependent;
 import com.mitrais.rms.repository.DependentRepository;
 import com.mitrais.rms.service.DependentService;
@@ -42,9 +43,10 @@ public class DeleteController
 			.findByIdAndEmployeeId(
 				dependentId, employeeId
 			);
-		if (entity != null)
-			this.service.deleteAssociation(
-				entity
-			);
+		if (entity == null)
+			throw new DependentNotFoundException();
+		this.service.deleteAssociation(
+			entity
+		);
 	}
 }

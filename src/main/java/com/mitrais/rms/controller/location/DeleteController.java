@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrais.rms.controller.IDeleteController;
+import com.mitrais.rms.controller.commons.exception.LocationNotFoundException;
 import com.mitrais.rms.entity.Location;
 import com.mitrais.rms.repository.LocationRepository;
 import com.mitrais.rms.service.LocationService;
@@ -42,9 +43,10 @@ public class DeleteController
 			.findByIdAndEmployeeId(
 				locationId, employeeId
 			);
-		if (entity != null)
-			this.service.deleteAssociation(
-				entity
-			);
+		if (entity == null)
+			throw new LocationNotFoundException();
+		this.service.deleteAssociation(
+			entity
+		);
 	}
 }

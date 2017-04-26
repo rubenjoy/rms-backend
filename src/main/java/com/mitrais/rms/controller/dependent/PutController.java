@@ -15,7 +15,7 @@ import com.mitrais.rms.entity.Dependent;
 import com.mitrais.rms.repository.DependentRepository;
 import com.mitrais.rms.service.DependentService;
 
-@RestController(value = "DependentPutController")
+@RestController(value = "dependentPutController")
 @RequestMapping(value = "/employees/{employeeId}/dependents")
 public class PutController
 	implements IPutController<DependentDto>

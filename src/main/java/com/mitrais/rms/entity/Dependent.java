@@ -97,7 +97,7 @@ public class Dependent
 
 	public Integer getEmployeeId()
 	{
-		return employeeId;
+		return employee.getId();
 	}
 
 	public DependentType getType()

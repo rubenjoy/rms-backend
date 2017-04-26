@@ -97,7 +97,7 @@ public class GradeHistory
 
 	public Integer getEmployeeId()
 	{
-		return employeeId;
+		return employee.getId();
 	}
 
 	public Date getStartDate()
