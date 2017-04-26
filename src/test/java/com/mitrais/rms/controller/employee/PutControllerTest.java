@@ -7,12 +7,12 @@ import com.mitrais.rms.entity.enumerated.Nationality;
 import com.mitrais.rms.repository.EmployeeRepository;
 import static com.mitrais.rms.utils.DateFormatter.parse;
 
-import io.restassured.http.ContentType;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.not;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,30 +20,28 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @DataJpaTest
-@ComponentScan(basePackageClasses = {GetController.class})
+@ComponentScan(basePackageClasses = {PutController.class})
 @RunWith(SpringRunner.class)
-public class GetControllerWithJpaTest
+public class PutControllerTest
 {
 	@Autowired
-	@Qualifier("employeeGetController")
-	private GetController getController;
-
+	@Qualifier("employeePutController")
+	private PutController putController;
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-	private Integer createdId;
+	private Integer employeeId;
 
 	@Before
 	public void setup()
 	{
 		Employee employee = new Employee();
 		employee.setName("Mukidi")
-			.setBirthDate(parse("2017-12-12"))
+			.setBirthDate(parse("1989-10-10"))
 			.setGender(Gender.MALE)
 			.setMaritalStatus(MaritalStatus.SINGLE)
 			.setPhone("0812")
@@ -58,36 +56,49 @@ public class GetControllerWithJpaTest
 			.setBusinessUnit("buscom")
 			.setNationality(Nationality.INDONESIAN);
 		employeeRepository.save(employee);
-		createdId = employee.getId();
-		assert createdId != null;
+		employeeId = employee.getId();
+		assert employeeId != null;
+	}
+
+	@After
+	public void tearDown()
+	{
+		employeeRepository.deleteAll();
+		employeeId = null;
 	}
 
 	@Test
-	public void itShouldFindById()
+	public void itShouldPutEmployee()
 	{
+		String employee = "{\"name\": \"Peter Parker\", \"birthDate\": \"1985-10-10\"}";
+
 		given().
-			standaloneSetup(this.getController).
+			contentType("application/json").
+			body(employee).
+			standaloneSetup(this.putController).
 		when().
-			get("/employees/{employeeId}", createdId.intValue()).
+			put("/employees/{employeeId}", employeeId).
 		then().
 			statusCode(200).
-			contentType(ContentType.JSON).
-			body("id", equalTo("/employees/" + createdId.toString())).
-			body("name", equalTo("Mukidi")).
-			body("birthDate", equalTo("2017-12-12"));
+			body("id", equalTo("/employees/" + employeeId)).
+			body("name", not(equalTo("Mukidi"))).
+			body("name", equalTo("Peter Parker")).
+			body("birthDate", not(equalTo("1989-10-10"))).
+			body("birthDate", equalTo("1985-10-10"));
 	}
 
 	@Test
-	public void itShouldFindAll()
+	public void itShouldResponse404ForInvalidEmployee()
 	{
+		String employee = "{\"name\": \"Peter Parker\", \"birthDate\": \"1985-10-10\"}";
+
 		given().
-			standaloneSetup(this.getController).
+			contentType("application/json").
+			body(employee).
+			standaloneSetup(this.putController).
 		when().
-			get("/employees").
+			put("/employees/{employeeId}", 0).
 		then().
-			statusCode(200).
-			contentType(ContentType.JSON).
-			body("id", hasItems("/employees/" + createdId.toString())).
-			body("name", hasItems("Mukidi"));
+			statusCode(404);
 	}
 }

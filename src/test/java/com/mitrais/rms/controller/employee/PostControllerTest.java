@@ -82,6 +82,7 @@ public class PostControllerTest
 			contentType(ContentType.JSON).
 			body("id", equalTo("/employees/2")).
 			body("name", equalTo("Mukidi")).
-			body("birthDate", equalTo("2017-12-12"));
+			body("birthDate", equalTo("2017-12-12")).
+			body("suspendDate", equalTo("2017-12-12"));
 	}
 }
