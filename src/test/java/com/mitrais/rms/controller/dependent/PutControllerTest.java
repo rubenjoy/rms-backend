@@ -121,7 +121,7 @@ public class PutControllerTest
 			body(dependent).
 			standaloneSetup(this.putController).
 		when().
-			put("/employees/{employeeId}/depedents/{dependentId}",
+			put("/employees/{employeeId}/dependents/{dependentId}",
 				0, dependentId).
 		then().
 			statusCode(404);
@@ -138,7 +138,7 @@ public class PutControllerTest
 			body(dependent).
 			standaloneSetup(this.putController).
 		when().
-			put("/employees/{employeeId}/depedents/{dependentId}",
+			put("/employees/{employeeId}/dependents/{dependentId}",
 				employeeId, 0).
 		then().
 			statusCode(404);

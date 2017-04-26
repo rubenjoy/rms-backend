@@ -28,6 +28,6 @@ dependencies found on build.gradle:
 
 # TODO
 
-- <del>Unit Test w/ Spring starter test & Mockito MVC</del> IN PROGRESS
+- <del>Unit Test w/ Spring starter test & Mockito MVC</del>
 - adding validation to DTO
 - Meaningfull error message for rest controller

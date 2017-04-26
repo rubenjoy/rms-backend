@@ -43,7 +43,6 @@ public class GetController
 			);
 		if (dependent == null)
 			throw new DependentNotFoundException();
-		assert dependent.getId() != null : dependent;
 		return DependentDto.fromEntity(dependent);
 	}
 

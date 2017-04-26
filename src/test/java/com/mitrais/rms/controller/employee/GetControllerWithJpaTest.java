@@ -90,4 +90,15 @@ public class GetControllerWithJpaTest
 			body("id", hasItems("/employees/" + createdId.toString())).
 			body("name", hasItems("Mukidi"));
 	}
+
+	@Test
+	public void itShouldResponse404ForInvalidEmployee()
+	{
+		given().
+			standaloneSetup(this.getController).
+		when().
+			get("/employees/{employeeId}", 0).
+		then().
+			statusCode(404);
+	}
 }

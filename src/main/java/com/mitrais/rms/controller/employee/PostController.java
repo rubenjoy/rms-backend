@@ -25,7 +25,6 @@ public class PostController
 	{
 		Employee entity = dto.createEntity();
 		this.repository.save( entity );
-		assert entity.getId() != null : entity;
 		return EmployeeDto.fromEntity(entity);
 	}
 }

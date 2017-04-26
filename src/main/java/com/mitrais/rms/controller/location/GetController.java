@@ -44,7 +44,6 @@ public class GetController
 			);
 		if (location == null) 
 			throw new LocationNotFoundException();
-		assert location.getId() != null : location;
 		return LocationDto.fromEntity(location);
 	}
 

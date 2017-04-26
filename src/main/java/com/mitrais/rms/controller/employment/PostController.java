@@ -43,7 +43,6 @@ public class PostController
 		EmploymentHistory entity = dto.createEntity();
 		entity.setEmployee( employee );
 		this.service.createAssociation(employee, entity);
-		assert entity.getId() != null : entity;
 		return EmploymentHistoryDto.fromEntity(entity);
 	}
 }
