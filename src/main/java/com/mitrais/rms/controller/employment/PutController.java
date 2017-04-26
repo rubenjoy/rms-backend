@@ -44,6 +44,8 @@ public class PutController
 			.findByIdAndEmployeeId(
 				employmentId, employeeId
 			);
+		if (entity == null)
+			throw new EmploymentNotFoundException();
 		Set<JobDescription> deletedEntities = 
 			dto.getDeletedEntities(entity);
 		this.service.deleteJobDesc( 

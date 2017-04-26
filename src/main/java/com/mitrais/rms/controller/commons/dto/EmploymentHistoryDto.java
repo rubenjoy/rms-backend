@@ -157,7 +157,7 @@ public class EmploymentHistoryDto
 
 	public static EmploymentHistoryDto fromEntity(EmploymentHistory entity)
 	{
-		return new EmploymentHistoryDto(entity.getId(),
+		EmploymentHistoryDto dto = new EmploymentHistoryDto(entity.getId(),
 			format(entity.getStartDate()), 
 			format(entity.getEndDate()), 
 			entity.getEmployer(),
@@ -165,6 +165,8 @@ public class EmploymentHistoryDto
 			entity.getActiveInd(),
 			entity.getJobDesc()
 		);
+		dto.employeeId = entity.getEmployeeId();
+		return dto;
 	}
 
 	public EmploymentHistory updateEntity(EmploymentHistory entity)

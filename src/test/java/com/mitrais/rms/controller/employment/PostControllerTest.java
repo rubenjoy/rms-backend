@@ -1,19 +1,18 @@
-package com.mitrais.rms.controller.address;
+package com.mitrais.rms.controller.employment;
 
-import com.mitrais.rms.entity.Address;
 import com.mitrais.rms.entity.Employee;
 import com.mitrais.rms.entity.enumerated.Gender;
 import com.mitrais.rms.entity.enumerated.MaritalStatus;
 import com.mitrais.rms.entity.enumerated.Nationality;
-import com.mitrais.rms.repository.AddressRepository;
 import com.mitrais.rms.repository.EmployeeRepository;
-import com.mitrais.rms.service.AddressService;
+import com.mitrais.rms.repository.EmploymentRepository;
+import com.mitrais.rms.service.EmploymentService;
 import static com.mitrais.rms.utils.DateFormatter.parse;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.startsWith;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,20 +26,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @DataJpaTest
-@ComponentScan(basePackageClasses = {GetController.class, AddressService.class})
+@ComponentScan(basePackageClasses = {PostController.class, EmploymentService.class})
 @RunWith(SpringRunner.class)
-public class GetControllerTest
+public class PostControllerTest
 {
 	@Autowired
-	@Qualifier("addressGetController")
-	private GetController getController;
-
-	@Autowired
-	private AddressRepository addressRepository;
+	@Qualifier("employmentPostController")
+	private PostController postController;
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmploymentRepository employmentRepository;
 
-	private Integer addressId;
 	private Integer employeeId;
 
 	@Before
@@ -65,71 +62,50 @@ public class GetControllerTest
 		employeeRepository.save(employee);
 		this.employeeId = employee.getId();
 		assert employeeId != null;
-		Address address = new Address();
-		address.setAddress("hello world")
-			.setActiveInd(true);
-		address.setEmployee(employee);
-		employee.getAddresses().add(address);
-		addressRepository.save(address);
-		this.addressId = address.getId();
-		assert addressId != null;
 	}
 
 	@After
 	public void tearDown()
 	{
-		addressRepository.deleteAll();
+		employmentRepository.deleteAll();
 		employeeRepository.deleteAll();
 		employeeId = null;
-		addressId = null;
-	}
-
-
-	@Test
-	public void itShouldFindAllByEmployeeId()
-	{
-		given().
-			standaloneSetup(this.getController).
-		when().
-			get("/employees/{employeeId}/addresses", employeeId).
-		then().
-			statusCode(200).
-			body("id", hasItems("/employees/" + employeeId + "/addresses/" + addressId)).
-			body("address", hasItems("hello world"));
 	}
 
 	@Test
-	public void itShouldFindByEmployeeIdAndAddressId()
+	public void itShouldPostEmployment()
 	{
+		String employment = "{\"employer\": \"PT Maju Mundur Kena\", \"jobTitle\": \"Cleaning Service\", " +
+			"\"startDate\": \"2017-12-02\", \"endDate\": \"2017-12-24\", \"activeInd\": true}";
+		// TODO with jobdesc
+
 		given().
-			standaloneSetup(this.getController).
+			contentType("application/json").
+			body(employment).
+			standaloneSetup(this.postController).
 		when().
-			get("/employees/{employeeId}/addresses/{addressId}", employeeId, addressId).
+			post("/employees/{employeeId}/employments", employeeId).
 		then().
 			statusCode(200).
-			body("id", equalTo("/employees/" + employeeId + "/addresses/" + addressId)).
-			body("address", equalTo("hello world")).
+			body("id", startsWith("/employees/" + employeeId + "/employments/")).
+			body("employer", equalTo("PT Maju Mundur Kena")).
+			body("jobTitle", equalTo("Cleaning Service")).
+			body("startDate", equalTo("2017-12-02")).
+			body("endDate", equalTo("2017-12-24")).
 			body("activeInd", equalTo(true));
-	}
-
-	@Test
-	public void itShouldResponse404ForInvalidAddress()
-	{
-		given().
-			standaloneSetup(this.getController).
-		when().
-			get("/employees/{employeeId}/addresses/{addressId}", employeeId, 0).
-		then().
-			statusCode(404);
 	}
 
 	@Test
 	public void itShouldResponse404ForInvalidEmployee()
 	{
+		String employment = "{\"employer\": \"PT Maju Mundur Kena\", \"jobTitle\": \"Cleaning Service\"}";
+
 		given().
-			standaloneSetup(this.getController).
+			contentType("application/json").
+			body(employment).
+			standaloneSetup(this.postController).
 		when().
-			get("/employees/{employeeId}/addresses/{addressId}", 0, addressId).
+			post("/employees/{employeeId}/employments", 0).
 		then().
 			statusCode(404);
 	}

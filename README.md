@@ -15,6 +15,8 @@ All weak entities are nested on /rms/api/employees endpoint.
 - gradle clean
 - gradle build
 - gradle bootRun
+- gradle test
+- gradle test jacocoTestReport
 
 # dependencies
 
@@ -26,6 +28,6 @@ dependencies found on build.gradle:
 
 # TODO
 
-- Unit Test w/ Spring starter test & Mockito MVC
+- <del>Unit Test w/ Spring starter test & Mockito MVC</del> IN PROGRESS
 - adding validation to DTO
 - Meaningfull error message for rest controller

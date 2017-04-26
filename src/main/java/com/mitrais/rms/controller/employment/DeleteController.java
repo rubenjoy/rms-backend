@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mitrais.rms.controller.IDeleteController;
+import com.mitrais.rms.controller.commons.exception.EmploymentNotFoundException;
 import com.mitrais.rms.entity.EmploymentHistory;
 import com.mitrais.rms.repository.EmploymentRepository;
 import com.mitrais.rms.service.EmploymentService;
@@ -38,7 +39,8 @@ public class DeleteController
 			.findByIdAndEmployeeId(
 				employmentId, employeeId
 			);
-		if (entity != null)
-			this.service.deleteAssociation( entity );
+		if (entity == null)
+			throw new EmploymentNotFoundException();
+		this.service.deleteAssociation( entity );
 	}
 }
